@@ -1,6 +1,7 @@
 # 🎓 CampusGig — Hyper-Local Micro-Internship & Real Industry Project Marketplace
 
 <p align="center">
+  <a href="https://anjali792.github.io/CampusGig/"><img src="https://img.shields.io/badge/🚀_Live_Demo-Click_to_Open-brightgreen?style=for-the-badge&logo=googlechrome&logoColor=white" /></a>
   <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" />
   <img src="https://img.shields.io/badge/Spring_Boot-3.3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
   <img src="https://img.shields.io/badge/Spring_Security-6.0-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" />
