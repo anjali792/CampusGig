@@ -3,9 +3,11 @@ package com.campusgig.controller;
 import com.campusgig.dto.StudentProfileDto;
 import com.campusgig.model.Application;
 import com.campusgig.model.ApplicationStatus;
+import com.campusgig.model.Gig;
 import com.campusgig.model.StudentProfile;
 import com.campusgig.model.User;
 import com.campusgig.service.ApplicationService;
+import com.campusgig.service.GigService;
 import com.campusgig.service.UserService;
 import com.campusgig.util.SecurityUtils;
 import jakarta.validation.Valid;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/student")
@@ -26,13 +30,16 @@ public class StudentController {
 
     private final UserService userService;
     private final ApplicationService applicationService;
+    private final GigService gigService;
     private final SecurityUtils securityUtils;
 
     public StudentController(UserService userService,
                              ApplicationService applicationService,
+                             GigService gigService,
                              SecurityUtils securityUtils) {
         this.userService = userService;
         this.applicationService = applicationService;
+        this.gigService = gigService;
         this.securityUtils = securityUtils;
     }
 
@@ -57,13 +64,36 @@ public class StudentController {
                 .filter(a -> a.getStatus() == ApplicationStatus.COMPLETED)
                 .count();
 
+        // Calculate potential earnings in INR
+        double pendingEarnings = applications.stream()
+                .filter(a -> a.getStatus() == ApplicationStatus.PENDING)
+                .mapToDouble(a -> a.getProposedBudget().doubleValue())
+                .sum();
+        double earnedEarnings = applications.stream()
+                .filter(a -> a.getStatus() == ApplicationStatus.COMPLETED)
+                .mapToDouble(a -> a.getProposedBudget().doubleValue())
+                .sum();
+
+        // Get Top 3 Recommended Gigs the student has not applied to yet
+        Set<Long> appliedGigIds = applications.stream()
+                .map(a -> a.getGig().getId())
+                .collect(Collectors.toSet());
+
+        List<Gig> recommendedGigs = gigService.getAllOpenGigs().stream()
+                .filter(g -> !appliedGigIds.contains(g.getId()))
+                .limit(3)
+                .collect(Collectors.toList());
+
         model.addAttribute("student", student);
         model.addAttribute("profile", profile);
         model.addAttribute("applications", applications);
+        model.addAttribute("recommendedGigs", recommendedGigs);
         model.addAttribute("totalApplied", totalApplied);
         model.addAttribute("pendingCount", pendingCount);
         model.addAttribute("acceptedCount", acceptedCount);
         model.addAttribute("completedCount", completedCount);
+        model.addAttribute("pendingEarnings", pendingEarnings);
+        model.addAttribute("earnedEarnings", earnedEarnings);
 
         return "student/dashboard";
     }

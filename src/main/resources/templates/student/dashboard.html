@@ -98,6 +98,60 @@
             </div>
         </div>
 
+        <!-- Semester Stipend & Goal Tracker -->
+        <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-emerald-400 text-xs font-semibold mb-3">
+                        <i class="fa-solid fa-coins text-amber-400 text-xs"></i>
+                        <span>Semester Earnings Target (₹ INR)</span>
+                    </div>
+                    <h3 class="text-2xl font-extrabold tracking-tight">
+                        Pipeline & Stipend Tracker
+                    </h3>
+                    <p class="text-xs text-indigo-200/80 mt-1 max-w-xl">
+                        Track your pending proposal stipends, active milestone deliverables, and overall college semester earnings goal.
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <div class="bg-white/10 backdrop-blur-md px-5 py-3.5 rounded-2xl border border-white/15 text-center min-w-[140px]">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-amber-300 block">Pending Review</span>
+                        <span class="text-xl font-extrabold text-white mt-1 block">
+                            ₹<span th:text="${#numbers.formatDecimal(pendingEarnings, 0, 'COMMA', 0, 'POINT')}">45,000</span>
+                        </span>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-md px-5 py-3.5 rounded-2xl border border-white/15 text-center min-w-[140px]">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-400 block">Earned So Far</span>
+                        <span class="text-xl font-extrabold text-white mt-1 block">
+                            ₹<span th:text="${#numbers.formatDecimal(earnedEarnings, 0, 'COMMA', 0, 'POINT')}">0</span>
+                        </span>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-md px-5 py-3.5 rounded-2xl border border-white/15 text-center min-w-[140px]">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-200 block">Semester Goal</span>
+                        <span class="text-xl font-extrabold text-white mt-1 block">₹1,50,000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Milestone Progress Bar -->
+            <div class="relative z-10 mt-6 pt-5 border-t border-white/10">
+                <div class="flex justify-between items-center text-xs font-semibold mb-2">
+                    <span class="text-indigo-200 flex items-center">
+                        <i class="fa-solid fa-award text-amber-400 mr-2"></i>
+                        <span>Proposal Pipeline Progress: <strong>30% of Semester Goal in Review</strong></span>
+                    </span>
+                    <span class="text-emerald-400">Target: ₹1.5 Lakhs</span>
+                </div>
+                <div class="w-full bg-white/15 rounded-full h-3 overflow-hidden p-0.5">
+                    <div class="bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-300 h-2 rounded-full transition-all" style="width: 30%"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Applied Gigs Tracker (in Indian Rupees ₹) -->
         <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
             <div class="flex justify-between items-center mb-6">
@@ -166,6 +220,68 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- Recommended Tech Micro-Internships for You -->
+        <div th:if="${!#lists.isEmpty(recommendedGigs)}" class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                    <div class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold mb-2">
+                        <i class="fa-solid fa-sparkles text-amber-500"></i>
+                        <span>Matched to Your Skills: Java, Spring Boot, React, APIs</span>
+                    </div>
+                    <h2 class="text-xl font-bold text-slate-900">Recommended Micro-Internships for You</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Top tech startups and corporate teams actively hiring campus talent.</p>
+                </div>
+                <a th:href="@{/gigs}" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center">
+                    <span>View All 12+ Gigs</span>
+                    <i class="fa-solid fa-arrow-right ml-1.5 text-[10px]"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div th:each="recGig : ${recommendedGigs}" 
+                     class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-indigo-300 hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md"
+                                  th:text="${recGig.category}">Category</span>
+                            <span class="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                ₹<span th:text="${#numbers.formatDecimal(recGig.budget, 0, 'COMMA', 0, 'POINT')}">40,000</span>
+                                <span class="text-[10px] font-normal text-emerald-600" th:text="${recGig.budgetType == 'MONTHLY_STIPEND' ? '/mo' : ''}"></span>
+                            </span>
+                        </div>
+
+                        <h4 class="font-bold text-slate-900 group-hover:text-indigo-600 text-sm mb-1.5 line-clamp-2"
+                            th:text="${recGig.title}">Gig Title</h4>
+
+                        <p class="text-xs text-slate-500 flex items-center mb-3">
+                            <i class="fa-solid fa-building text-slate-400 mr-1.5 text-[11px]"></i>
+                            <span class="font-semibold text-slate-700 mr-2" th:text="${recGig.companyName != null ? recGig.companyName : recGig.client.fullName}">Company</span>
+                            <span class="text-slate-400">•</span>
+                            <span class="ml-2 text-slate-500" th:text="${recGig.locationType}">REMOTE</span>
+                        </p>
+
+                        <!-- Skills Tags -->
+                        <div class="flex flex-wrap gap-1 mb-4">
+                            <span th:each="skill : ${#strings.arraySplit(recGig.requiredSkills, ',')}"
+                                  class="text-[10px] px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-600 font-medium"
+                                  th:text="${#strings.trim(skill)}">Java</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200/60 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-400">
+                            <i class="fa-solid fa-users mr-1"></i>
+                            <span th:text="${recGig.applicantsCount}">3</span> applied
+                        </span>
+                        <a th:href="@{/gigs/{id}(id=${recGig.id})}" 
+                           class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
+                            Apply Now →
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
