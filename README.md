@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://anjali792.github.io/CampusGig/"><img src="https://img.shields.io/badge/🚀_Live_Demo-Click_to_Open-brightgreen?style=for-the-badge&logo=googlechrome&logoColor=white" /></a>
   <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" />
-  <img src="https://img.shields.io/badge/Spring_Boot-3.3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
+  <img src="https://img.shields.io/badge/Spring_Boot-3.5.16-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
   <img src="https://img.shields.io/badge/Spring_Security-6.0-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" />
   <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
@@ -107,7 +107,7 @@ App starts in seconds at: **`http://localhost:8080`**
 
 ## 🛠️ Tech Stack Details
 
-- **Backend**: Java 25, Spring Boot 3.3.4 (Spring MVC, Spring Data JPA, Hibernate 6, Spring Security 6)
+- **Backend**: Java 25, Spring Boot 3.5.16 (Spring MVC, Spring Data JPA, Hibernate 6, Spring Security 6)
 - **Frontend**: Thymeleaf, Tailwind CSS (CDN), FontAwesome 6
 - **Database**: H2 (In-Memory Dev) / MySQL 8.0 (Production)
 - **Build Tool**: Apache Maven 3.9

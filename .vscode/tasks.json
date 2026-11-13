@@ -59,14 +59,11 @@
         {
             "label": "🚀 1-Click Deploy to GitHub",
             "type": "shell",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\push_to_github.ps1",
-            "problemMatcher": [],
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared"
-            }
+            "command": "cmd.exe /c \"git add . && git commit -m \\\"feat: updates from VS Code\\\" && git push origin main\"",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }
