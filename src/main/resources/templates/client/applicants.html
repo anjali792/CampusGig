@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${'Applicants for: ' + gig.title + ' - CampusGig'}">Review Applicants - CampusGig</title>
+</head>
+<body>
+<section class="py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <!-- Top Nav & Breadcrumb -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a th:href="@{/client/dashboard}" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900">Student Proposals & Hiring</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">Review student portfolios, compare proposed bids, and hire candidates.</p>
+                </div>
+            </div>
+
+            <a th:href="@{/gigs/{id}(id=${gig.id})}" target="_blank" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:text-indigo-600 text-xs font-semibold">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-1 text-[10px]"></i> View Public Gig
+            </a>
+        </div>
+
+        <!-- Gig Quick Info Strip -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+            <div>
+                <span class="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-indigo-50 text-indigo-700" th:text="${gig.category}">Web Development</span>
+                <h2 class="text-lg font-bold text-slate-900 mt-1" th:text="${gig.title}">Gig Title</h2>
+                <div class="flex items-center space-x-3 text-xs text-slate-500 mt-1">
+                    <span>Budget: <strong class="text-emerald-600 font-bold">₹<span th:text="${#numbers.formatDecimal(gig.budget, 0, 'COMMA', 0, 'POINT')}">14,000</span></strong></span>
+                    <span>•</span>
+                    <span>Deadline: <strong class="text-slate-700 font-medium" th:text="${#temporals.format(gig.deadline, 'MMM dd, yyyy')}">Nov 30</strong></span>
+                    <span>•</span>
+                    <span class="inline-flex items-center text-indigo-600">
+                        <i class="fa-solid fa-location-dot mr-1 text-[10px]"></i>
+                        <span th:text="${gig.locationType}">REMOTE</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <span class="px-3 py-1.5 rounded-xl text-xs font-bold"
+                      th:classappend="${gig.status.name() == 'OPEN'} ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-700'">
+                    Status: <span th:text="${gig.status}">OPEN</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(applications)}" class="bg-white rounded-3xl border border-slate-200 p-12 text-center">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center text-xl mx-auto mb-3">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">No student proposals received yet</h3>
+            <p class="text-xs text-slate-500 mt-1">Proposals from interested college students will appear here as soon as they apply.</p>
+        </div>
+
+        <!-- Proposals List -->
+        <div th:if="${!#lists.isEmpty(applications)}" class="space-y-6">
+            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider text-xs text-slate-400">
+                Submitted Proposals (<span th:text="${#lists.size(applications)}">0</span>)
+            </h3>
+
+            <div th:each="app : ${applications}" class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left: Student Profile Card -->
+                    <div class="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-slate-100 pb-6 lg:pb-0 lg:pr-6 space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <img th:src="${app.student.avatarUrl}" alt="Avatar" class="w-14 h-14 rounded-2xl object-cover border border-slate-200">
+                            <div>
+                                <h4 class="text-base font-bold text-slate-900" th:text="${app.student.fullName}">Student Name</h4>
+                                <p class="text-xs text-slate-500" 
+                                   th:text="${app.student.studentProfile != null ? app.student.studentProfile.college : 'University Student'}">College</p>
+                                <p class="text-[11px] text-slate-400" 
+                                   th:text="${app.student.studentProfile != null ? app.student.studentProfile.major : ''}">Major</p>
+                            </div>
+                        </div>
+
+                        <!-- Bio Snippet -->
+                        <p class="text-xs text-slate-600 leading-relaxed italic"
+                           th:if="${app.student.studentProfile != null and app.student.studentProfile.bio != null}"
+                           th:text="${app.student.studentProfile.bio}">Bio snippet...</p>
+
+                        <!-- Student Verified Links -->
+                        <div class="space-y-1.5 pt-2 border-t border-slate-100 text-xs">
+                            <div th:if="${app.student.studentProfile != null and app.student.studentProfile.githubUrl != null}">
+                                <a th:href="${app.student.studentProfile.githubUrl}" target="_blank" class="text-slate-700 hover:text-indigo-600 font-medium flex items-center">
+                                    <i class="fa-brands fa-github mr-2 text-slate-500"></i> GitHub Profile
+                                </a>
+                            </div>
+                            <div th:if="${app.student.studentProfile != null and app.student.studentProfile.linkedinUrl != null}">
+                                <a th:href="${app.student.studentProfile.linkedinUrl}" target="_blank" class="text-slate-700 hover:text-indigo-600 font-medium flex items-center">
+                                    <i class="fa-brands fa-linkedin mr-2 text-blue-600"></i> LinkedIn Profile
+                                </a>
+                            </div>
+                            <div th:if="${app.student.studentProfile != null and app.student.studentProfile.portfolioUrl != null}">
+                                <a th:href="${app.student.studentProfile.portfolioUrl}" target="_blank" class="text-slate-700 hover:text-indigo-600 font-medium flex items-center">
+                                    <i class="fa-solid fa-globe mr-2 text-indigo-500"></i> Live Portfolio
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Skills Tags -->
+                        <div th:if="${app.student.studentProfile != null}" class="flex flex-wrap gap-1 pt-2">
+                            <span th:each="sk : ${app.student.studentProfile.getSkillsList()}" 
+                                  class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium"
+                                  th:text="${sk}">Java</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Proposal Details & Action Controls -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <!-- Top Proposal Bar -->
+                        <div class="flex flex-wrap justify-between items-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Proposed Bid</span>
+                                <span class="text-xl font-extrabold text-emerald-600">₹<span th:text="${#numbers.formatDecimal(app.proposedBudget, 0, 'COMMA', 0, 'POINT')}">14,000</span></span>
+                            </div>
+                            <div>
+                                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Turnaround</span>
+                                <span class="text-sm font-bold text-slate-800"><span th:text="${app.estimatedDays}">7</span> Days</span>
+                            </div>
+                            <div>
+                                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Submitted</span>
+                                <span class="text-xs text-slate-600 font-medium" th:text="${#temporals.format(app.appliedAt, 'MMM dd, yyyy')}">Nov 10</span>
+                            </div>
+                            <div>
+                                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Status</span>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold inline-block"
+                                      th:classappend="${app.status.name() == 'ACCEPTED'} ? 'bg-emerald-100 text-emerald-800' : (${app.status.name() == 'PENDING'} ? 'bg-amber-100 text-amber-800' : (${app.status.name() == 'COMPLETED'} ? 'bg-indigo-100 text-indigo-800' : 'bg-rose-100 text-rose-800'))"
+                                      th:text="${app.status}">PENDING</span>
+                            </div>
+                        </div>
+
+                        <!-- Demo Link if provided in application -->
+                        <div th:if="${app.portfolioLink != null and !app.portfolioLink.isEmpty()}" class="p-3 rounded-xl bg-indigo-50/50 border border-indigo-100 text-xs flex items-center justify-between">
+                            <span class="text-slate-600">Referenced Project Demo / Repo:</span>
+                            <a th:href="${app.portfolioLink}" target="_blank" class="font-bold text-indigo-600 hover:underline flex items-center">
+                                <span th:text="${app.portfolioLink}" class="truncate max-w-xs">Link</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
+                            </a>
+                        </div>
+
+                        <!-- Cover Pitch -->
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Student Pitch / Proposal Note</span>
+                            <div class="bg-white p-4 rounded-2xl border border-slate-200 text-xs text-slate-700 leading-relaxed whitespace-pre-line" th:text="${app.coverLetter}">
+                                Pitch text...
+                            </div>
+                        </div>
+
+                        <!-- Feedback / Review Details if present -->
+                        <div th:if="${app.clientFeedback != null}" class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                            <span class="font-bold text-slate-700">Client Feedback Note:</span>
+                            <span class="text-slate-600 ml-1" th:text="${app.clientFeedback}">Feedback note</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-end gap-3">
+                            <!-- If Pending: Show Hire / Accept and Decline -->
+                            <div th:if="${app.status.name() == 'PENDING'}" class="flex items-center space-x-2">
+                                <form th:action="@{/client/applications/{id}/status(id=${app.id})}" method="post" class="inline">
+                                    <input type="hidden" name="gigId" th:value="${gig.id}">
+                                    <input type="hidden" name="status" value="REJECTED">
+                                    <button type="submit" onclick="return confirm('Decline this student proposal?')"
+                                            class="px-4 py-2 border border-slate-300 text-slate-600 hover:text-rose-600 hover:border-rose-300 font-semibold rounded-xl text-xs transition-colors">
+                                        Decline
+                                    </button>
+                                </form>
+
+                                <form th:action="@{/client/applications/{id}/status(id=${app.id})}" method="post" class="inline">
+                                    <input type="hidden" name="gigId" th:value="${gig.id}">
+                                    <input type="hidden" name="status" value="ACCEPTED">
+                                    <button type="submit" onclick="return confirm('Hire this student for this micro-gig?')"
+                                            class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow transition-all flex items-center space-x-1.5">
+                                        <i class="fa-solid fa-check text-xs"></i>
+                                        <span>Accept & Hire Student</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- If Accepted: Show Mark Completed -->
+                            <div th:if="${app.status.name() == 'ACCEPTED'}" class="flex items-center space-x-2">
+                                <span class="text-xs text-emerald-700 font-bold flex items-center mr-2">
+                                    <i class="fa-solid fa-circle-check mr-1.5"></i> Hired & In Progress
+                                </span>
+                                <form th:action="@{/client/applications/{id}/status(id=${app.id})}" method="post" class="inline">
+                                    <input type="hidden" name="gigId" th:value="${gig.id}">
+                                    <input type="hidden" name="status" value="COMPLETED">
+                                    <input type="hidden" name="feedback" value="Excellent work delivered on time and according to specification!">
+                                    <button type="submit" onclick="return confirm('Confirm project completion and leave positive review?')"
+                                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow transition-all flex items-center space-x-1.5">
+                                        <i class="fa-solid fa-award text-xs"></i>
+                                        <span>Mark Project Completed</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- If Completed -->
+                            <div th:if="${app.status.name() == 'COMPLETED'}">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">
+                                    <i class="fa-solid fa-award mr-1"></i> Completed & Verified
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

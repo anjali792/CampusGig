@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusGig - Indian College Micro-Internship Marketplace (INR ₹ Preview)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .gradient-brand { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #2563eb 100%); }
+        .gradient-text { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 28px -6px rgba(79, 70, 229, 0.12); }
+    </style>
+</head>
+<body class="text-slate-900 antialiased flex flex-col min-h-screen">
+
+    <!-- Top Mode Switcher Bar -->
+    <div class="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800 flex flex-wrap items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="font-bold">CampusGig India (INR ₹) UI Simulator:</span>
+            <span class="text-slate-400">Test real campus gigs, proposal flow & hiring in Indian Rupees:</span>
+        </div>
+        <div class="flex flex-wrap gap-1 mt-1 sm:mt-0">
+            <button onclick="switchView('landing')" id="btn-landing" class="px-2.5 py-1 rounded bg-indigo-600 font-semibold text-[11px]">🏠 Home</button>
+            <button onclick="switchView('marketplace')" id="btn-marketplace" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px]">🔍 Gigs Marketplace (₹)</button>
+            <button onclick="switchView('gig-detail')" id="btn-gig-detail" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px]">📄 Gig Details & Proposal</button>
+            <button onclick="switchView('student-dash')" id="btn-student-dash" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px]">🎓 Student Dashboard</button>
+            <button onclick="switchView('client-dash')" id="btn-client-dash" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px]">💼 Client Dashboard</button>
+            <button onclick="switchView('auth-modal')" id="btn-auth-modal" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px]">🔑 Auth & Register</button>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('landing')">
+                <div class="w-10 h-10 rounded-xl gradient-brand flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+                    <i class="fa-solid fa-graduation-cap text-lg"></i>
+                </div>
+                <span class="text-xl font-extrabold text-slate-900 tracking-tight">Campus<span class="text-indigo-600">Gig</span> <span class="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full font-bold ml-1">India</span></span>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-1">
+                <button onclick="switchView('marketplace')" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100">Explore Micro-Gigs</button>
+                <button onclick="switchView('student-dash')" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100">Student Portal</button>
+                <button onclick="switchView('client-dash')" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100">Hiring Partners</button>
+            </nav>
+
+            <div class="flex items-center space-x-2">
+                <button onclick="switchView('auth-modal')" class="px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-xl">Sign In</button>
+                <button onclick="switchView('auth-modal')" class="px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm">Join Free</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= VIEW 1: LANDING PAGE ================= -->
+    <main id="view-landing" class="flex-grow">
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-b from-indigo-50/60 via-white to-slate-50 pt-16 pb-20 border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 text-center max-w-3xl space-y-6">
+                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                    <span>🇮🇳 Indian College Micro-Internship & Project Marketplace</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                    Hire Ambitious College Talent for <span class="gradient-text">Real-World Projects</span>
+                </h1>
+                <p class="text-base sm:text-lg text-slate-600">
+                    Connect campus startups, local enterprises, and tech clubs with verified students from IITs, BITS, NITs, and top colleges for paid micro-gigs in 
+                    <strong class="text-slate-800">Spring Boot, GenAI & LLMs, Three.js, Cybersecurity, Flutter, and IoT</strong>.
+                </p>
+                <div class="flex justify-center gap-3 pt-4">
+                    <button onclick="switchView('marketplace')" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-500/20">
+                        <i class="fa-solid fa-compass mr-1.5"></i> Explore Gigs in Rupees (₹)
+                    </button>
+                    <button onclick="switchView('client-dash')" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm">
+                        <i class="fa-solid fa-plus mr-1.5"></i> Post a Gig as Client
+                    </button>
+                </div>
+
+                <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <p class="text-2xl font-extrabold text-indigo-600">850+</p>
+                        <p class="text-[11px] text-slate-500 font-semibold uppercase">Verified Students</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <p class="text-2xl font-extrabold text-emerald-600">240+</p>
+                        <p class="text-[11px] text-slate-500 font-semibold uppercase">Funded Projects</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <p class="text-2xl font-extrabold text-purple-600">₹18,50,000+</p>
+                        <p class="text-[11px] text-slate-500 font-semibold uppercase">Earned by Students</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <p class="text-2xl font-extrabold text-amber-500">4.96 ★</p>
+                        <p class="text-[11px] text-slate-500 font-semibold uppercase">Client Rating</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= VIEW 2: GIGS MARKETPLACE ================= -->
+    <main id="view-marketplace" class="flex-grow hidden py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-extrabold">Active Campus Micro-Gigs</h1>
+                    <p class="text-slate-500 text-sm">Stipends in Indian Rupees (₹) with verified campus and startup mentors.</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="demo-search" placeholder="Search by skill (e.g. Llama-3, Spring Boot, Three.js)..." onkeyup="filterDemoGigs()"
+                           class="px-4 py-2 rounded-xl border border-slate-300 text-xs w-72 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                </div>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap gap-2 mb-8">
+                <button onclick="setCategoryFilter('ALL')" class="category-pill active px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white">All (9)</button>
+                <button onclick="setCategoryFilter('Software Engineering')" class="category-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100">Top Tech Internships</button>
+                <button onclick="setCategoryFilter('AI & Data Science')" class="category-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100">AI & LLMs</button>
+                <button onclick="setCategoryFilter('Web Development')" class="category-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100">Web & Full-Stack</button>
+                <button onclick="setCategoryFilter('Mobile Apps')" class="category-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100">Mobile Apps</button>
+                <button onclick="setCategoryFilter('UI/UX Design')" class="category-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100">UI/UX Design</button>
+            </div>
+
+            <!-- Gigs Grid in INR -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gigs-grid">
+                <!-- Gig Card 1: Razorpay SDE Intern -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="Software Engineering" data-skills="java spring boot mysql redis microservices rest apis git">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[9px]"></i> Verified Opening
+                            </span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹45,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">/ month</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('razorpay')">
+                            Software Development Engineer (SDE) Intern - Backend (Java / Spring Boot / Go)
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-building text-indigo-500"></i>
+                            <span class="font-bold text-slate-800">Razorpay Software</span>
+                            <span>•</span>
+                            <span class="text-blue-600 font-semibold">HYBRID (Bengaluru)</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Build resilient payment microservices handling 5,000+ TPS with 99.99% uptime. Write clean Spring Boot & Go APIs, optimize MySQL/Redis, and join code reviews with Senior Staff Engineers.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Java</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Spring Boot</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">MySQL</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Redis</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="text-emerald-700 font-semibold"><i class="fa-solid fa-bolt-lightning text-amber-500 mr-1"></i> PPO Pathway</span>
+                        <div class="flex space-x-2">
+                            <a href="https://razorpay.com/jobs/" target="_blank" class="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold rounded-xl text-xs flex items-center">
+                                Portal <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i>
+                            </a>
+                            <button onclick="showGigDetail('razorpay')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gig Card 2: Swiggy Tech Intern -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="Web Development" data-skills="react typescript next.js node.js tailwind css javascript">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[9px]"></i> Verified Opening
+                            </span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹40,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">/ month</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('swiggy')">
+                            Full-Stack & Frontend Engineering Intern (React.js, Next.js, Web Speed)
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-utensils text-orange-500"></i>
+                            <span class="font-bold text-slate-800">Swiggy Consumer Tech</span>
+                            <span>•</span>
+                            <span class="text-indigo-600 font-semibold">REMOTE / BLR</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Develop sub-second consumer web screens for Swiggy Food and Instamart. Optimize Core Web Vitals, implement reactive UI in React 18 / Next.js with modern Tailwind CSS.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">React</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">TypeScript</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Next.js</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Tailwind</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="text-emerald-700 font-semibold"><i class="fa-solid fa-bolt-lightning text-amber-500 mr-1"></i> Live Opening</span>
+                        <div class="flex space-x-2">
+                            <a href="https://careers.swiggy.com/" target="_blank" class="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold rounded-xl text-xs flex items-center">
+                                Portal <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i>
+                            </a>
+                            <button onclick="showGigDetail('swiggy')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gig Card 3: Postman API Platform Intern -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="Software Engineering" data-skills="javascript node.js rest apis postman typescript docker">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[9px]"></i> Verified Opening
+                            </span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹45,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">/ month</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('postman')">
+                            Developer Experience & API Platform Engineering Intern
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-network-wired text-orange-600"></i>
+                            <span class="font-bold text-slate-800">Postman</span>
+                            <span>•</span>
+                            <span class="text-blue-600 font-semibold">HYBRID (Bengaluru)</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Contribute to Postman core API testing tooling, OpenAPI v3 generators, and Newman test runners. Collaborate with developer advocates across the global developer community.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Node.js</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">TypeScript</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">REST APIs</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Postman</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="text-emerald-700 font-semibold"><i class="fa-solid fa-bolt-lightning text-amber-500 mr-1"></i> Global SaaS</span>
+                        <div class="flex space-x-2">
+                            <a href="https://www.postman.com/company/careers/" target="_blank" class="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold rounded-xl text-xs flex items-center">
+                                Portal <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i>
+                            </a>
+                            <button onclick="showGigDetail('postman')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gig Card 4: Zepto Quick-Commerce -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="Software Engineering" data-skills="java golang mysql kafka redis data structures">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[9px]"></i> Verified Opening
+                            </span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹38,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">/ month</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('zepto')">
+                            Quick-Commerce Backend Systems & Dispatch Routing Intern
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-bolt text-red-500"></i>
+                            <span class="font-bold text-slate-800">Zepto Tech</span>
+                            <span>•</span>
+                            <span class="text-blue-600 font-semibold">HYBRID (Mumbai/BLR)</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Work on real-time dark-store inventory allocation and delivery rider geo-routing algorithms. High-concurrency Go and Java microservices processing thousands of orders per minute.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Go</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Java</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Kafka</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Redis</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="text-emerald-700 font-semibold"><i class="fa-solid fa-bolt-lightning text-amber-500 mr-1"></i> Fast-Paced</span>
+                        <div class="flex space-x-2">
+                            <a href="https://www.zeptonow.com/careers" target="_blank" class="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold rounded-xl text-xs flex items-center">
+                                Portal <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i>
+                            </a>
+                            <button onclick="showGigDetail('zepto')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gig Card 5: CRED Product Design Intern -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="UI/UX Design" data-skills="figma ui/ux design prototyping wireframing design systems">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[9px]"></i> Verified Opening
+                            </span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹35,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">/ month</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('cred')">
+                            Product Design & UI/UX Design Systems Intern
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-compass-drafting text-purple-600"></i>
+                            <span class="font-bold text-slate-800">CRED Design Studio</span>
+                            <span>•</span>
+                            <span class="text-purple-600 font-semibold">ON_SITE (Indiranagar BLR)</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Craft next-gen financial interfaces, gamified rewards, and high-fidelity Figma components fitting the bespoke CRED design system.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Figma</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">UI/UX</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Prototyping</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Design Systems</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="text-emerald-700 font-semibold"><i class="fa-solid fa-crown text-amber-500 mr-1"></i> World-Class Design</span>
+                        <div class="flex space-x-2">
+                            <a href="https://careers.cred.club/" target="_blank" class="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold rounded-xl text-xs flex items-center">
+                                Portal <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i>
+                            </a>
+                            <button onclick="showGigDetail('cred')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gig Card 6: Sarvam AI & Unstop Research Intern -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="AI & Data Science" data-skills="python pytorch llms langchain huggingface rag nlp">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[9px]"></i> Verified Opening
+                            </span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹30,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">/ month</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('sarvam')">
+                            Generative AI & Indic LLM Research Intern (LangChain, LoRA & PyTorch)
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-brain text-emerald-600"></i>
+                            <span class="font-bold text-slate-800">Sarvam AI / Unstop</span>
+                            <span>•</span>
+                            <span class="text-indigo-600 font-semibold">REMOTE (GPU Credits)</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Fine-tune sovereign Indic language models (Llama-3, Mistral) using LoRA, build multilingual RAG pipelines, and containerize FastAPI inference endpoints.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Python</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">PyTorch</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">LangChain</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">LoRA</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="text-emerald-700 font-semibold"><i class="fa-solid fa-bolt-lightning text-amber-500 mr-1"></i> Live on Unstop</span>
+                        <div class="flex space-x-2">
+                            <a href="https://unstop.com/internships" target="_blank" class="px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold rounded-xl text-xs flex items-center">
+                                Portal <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i>
+                            </a>
+                            <button onclick="showGigDetail('sarvam')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gig Card 7: Local Business Cafe QR Web App -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="Web Development" data-skills="react tailwind javascript node.js websockets upi">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700">Campus Freelance</span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹16,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">fixed</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('chaibyte')">
+                            Contactless QR Menu & Live Kitchen Display Web App (React + UPI Mock)
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-mug-hot text-amber-600"></i>
+                            <span class="font-bold text-slate-800">Chai & Byte Cafe</span>
+                            <span>•</span>
+                            <span class="text-amber-600 font-semibold">ON_CAMPUS</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Table QR code ordering web app with live kitchen display system (KDS) and UPI checkout deep-linking for university students.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">React</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Tailwind</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Node.js</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">UPI</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-regular fa-clock mr-1"></i> Due in 12 days</span>
+                        <button onclick="showGigDetail('chaibyte')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gig Card 8: 3D Robotics Landing Page -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="Web Development" data-skills="three.js webgl javascript tailwind css">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-purple-50 text-purple-700">3D Web Fest</span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹9,500</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">fixed</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('robotics')">
+                            Design 3D Interactive Web Landing Page in Three.js for Annual Tech Fest
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-robot text-indigo-600"></i>
+                            <span class="font-bold text-slate-800">Campus Robotics Club</span>
+                            <span>•</span>
+                            <span class="text-blue-600 font-semibold">HYBRID</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Create a responsive 3D interactive site for RoboCon 2026 with a rotating robotic arm model and sub-2.5s mobile loading.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Three.js</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">WebGL</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Tailwind</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-regular fa-clock mr-1"></i> Due in 10 days</span>
+                        <button onclick="showGigDetail('robotics')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gig Card 9: EduVibe Mobile Delivery -->
+                <div class="gig-card bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm card-hover" data-category="Mobile Apps" data-skills="react native typescript spring boot rest apis">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-50 text-amber-700">Mobile Apps</span>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-emerald-600">₹18,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase block">fixed</span>
+                            </div>
+                        </div>
+                        <h2 class="text-base font-bold text-slate-900 hover:text-indigo-600 cursor-pointer" onclick="showGigDetail('eduvibe')">
+                            Hostel Late-Night Food Delivery Mobile App (React Native + Spring Boot)
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+                            <i class="fa-solid fa-graduation-cap text-indigo-600"></i>
+                            <span class="font-bold text-slate-800">EduVibe Tech</span>
+                            <span>•</span>
+                            <span class="text-indigo-600 font-semibold">REMOTE</span>
+                        </p>
+                        <p class="text-xs text-slate-600 mt-3 line-clamp-3 leading-relaxed">
+                            Prototyping a hostel night-canteen ordering app. Build 6 React Native screens and connect to Spring Boot order APIs.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">React Native</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">Spring Boot</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium">REST</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-regular fa-clock mr-1"></i> Due in 15 days</span>
+                        <button onclick="showGigDetail('eduvibe')" class="px-4 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-semibold rounded-xl text-xs">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= VIEW 3: GIG DETAIL & PROPOSAL SUBMISSION ================= -->
+    <main id="view-gig-detail" class="flex-grow hidden py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-4">
+                <button onclick="switchView('marketplace')" class="text-xs font-semibold text-indigo-600 hover:underline">
+                    ← Back to Marketplace
+                </button>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main detail -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- External Career Portal Direct Apply Card -->
+                    <div id="detail-external-banner" class="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-indigo-500/10 border-2 border-emerald-500/30 rounded-3xl p-6 shadow-sm">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold mb-2 shadow-sm">
+                                    <i class="fa-solid fa-bolt-lightning text-amber-300"></i>
+                                    <span>Official Live Industry Opening</span>
+                                </div>
+                                <h3 class="text-lg font-black text-slate-900">Apply Directly on Official Career Portal</h3>
+                                <p class="text-xs text-slate-600 mt-1 max-w-lg leading-relaxed">
+                                    This verified opening is live at <strong class="text-slate-900" id="detail-external-company">Razorpay Software</strong>. You can apply directly on their corporate portal or submit your CampusGig student portfolio proposal below.
+                                </p>
+                            </div>
+                            <a id="detail-external-link" href="https://razorpay.com/jobs/" target="_blank" rel="noopener noreferrer" 
+                               class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl text-xs sm:text-sm shadow-md shadow-emerald-600/30 transition-all flex items-center space-x-2 whitespace-nowrap">
+                                <span>Apply on Official Portal</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span id="detail-category" class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">Software Engineering</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[10px]"></i> Verified Opening
+                            </span>
+                        </div>
+                        <h1 id="detail-title" class="text-2xl font-bold text-slate-900">Software Development Engineer (SDE) Intern - Backend (Java / Spring Boot / Go)</h1>
+                        
+                        <div class="grid grid-cols-3 gap-4 mt-6 p-4 rounded-2xl bg-slate-50">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Stipend (INR ₹)</span>
+                                <span class="text-2xl font-black text-emerald-600" id="detail-stipend">₹45,000</span>
+                                <span class="text-[10px] text-slate-400 font-bold block" id="detail-stipend-type">/ month</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Target Deadline</span>
+                                <span class="text-sm font-bold text-slate-800" id="detail-duration">30 Days</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Location</span>
+                                <span class="text-sm font-bold text-indigo-600" id="detail-location">HYBRID (Bengaluru)</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <h3 class="text-xs font-bold uppercase text-slate-400 mb-2">Detailed Scope</h3>
+                            <p id="detail-scope" class="text-xs text-slate-700 leading-relaxed whitespace-pre-line">
+                                Build resilient payment microservices handling 5,000+ TPS with 99.99% uptime. Write clean Spring Boot & Go APIs, optimize MySQL/Redis, and join code reviews with Senior Staff Engineers.
+                            </p>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100">
+                            <h3 class="text-xs font-bold uppercase text-slate-400 mb-2">Required Skills</h3>
+                            <div id="detail-skills" class="flex flex-wrap gap-1.5">
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-semibold text-slate-700">Java</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-semibold text-slate-700">Spring Boot</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-semibold text-slate-700">MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Proposal Form in INR -->
+                    <div class="bg-white rounded-3xl border border-indigo-200 p-8 shadow-sm">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900">Submit 1-Click CampusGig Proposal</h3>
+                                <p class="text-xs text-slate-500">Quote your bid in Rupees (₹) and highlight your past projects to the hiring team.</p>
+                            </div>
+                        </div>
+
+                        <form onsubmit="handleProposalSubmit(event)" class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Your Proposed Bid (₹)</label>
+                                    <input id="detail-bid-input" type="number" value="45000" step="500" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-emerald-700">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Days to Deliver</label>
+                                    <input type="number" value="30" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Portfolio / GitHub Repo Link</label>
+                                <input type="url" value="https://github.com/aryansharma-dev/payment-reconciliation-engine" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Cover Note / Pitch</label>
+                                <textarea rows="3" required class="w-full p-3 rounded-xl border border-slate-300 text-xs"
+                                          placeholder="Hi Team! I am a final-year CS undergrad at IIT Delhi with Spring Boot & microservices experience..."></textarea>
+                            </div>
+                            <button id="detail-form-btn" type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition-colors">
+                                Submit Proposal to Razorpay Software (₹45,000)
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Client sidebar -->
+                <div class="space-y-6">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">About the Hiring Partner</h4>
+                        <div class="flex items-center space-x-3 mb-3">
+                            <img id="detail-company-img" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100" class="w-12 h-12 rounded-2xl object-cover border">
+                            <div>
+                                <h5 id="detail-company-name" class="text-sm font-bold text-slate-900">Razorpay Software</h5>
+                                <span id="detail-company-type" class="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Fintech Unicorn</span>
+                            </div>
+                        </div>
+                        <p id="detail-company-desc" class="text-xs text-slate-600">India’s premier fintech payments unicorn powering online transactions for millions of businesses.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= VIEW 4: STUDENT DASHBOARD ================= -->
+    <main id="view-student-dash" class="flex-grow hidden py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <!-- Student Header Profile Card -->
+            <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150" class="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-100">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h2 class="text-2xl font-bold text-slate-900">Aryan Sharma</h2>
+                                <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700">Student Developer</span>
+                                <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Verified • IIT Delhi</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-0.5">IIT Delhi • B.Tech Computer Science • Class of 2025 • Expected Rate: ₹800/hr</p>
+                            <div class="flex gap-2 mt-2">
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-semibold">Java</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-semibold">Spring Boot</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-semibold">React Native</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-semibold">MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="switchView('marketplace')" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold">
+                        Browse More Gigs
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-4 gap-4 text-center">
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-slate-400 uppercase">Total Applied</span>
+                    <span class="text-3xl font-extrabold text-slate-900 block mt-1">4</span>
+                </div>
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-amber-500 uppercase">Under Review</span>
+                    <span class="text-3xl font-extrabold text-amber-500 block mt-1">2</span>
+                </div>
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-emerald-600 uppercase">Hired & Active</span>
+                    <span class="text-3xl font-extrabold text-emerald-600 block mt-1">1</span>
+                </div>
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-indigo-600 uppercase">Completed</span>
+                    <span class="text-3xl font-extrabold text-indigo-600 block mt-1">1</span>
+                </div>
+            </div>
+
+            <!-- Applied Gigs Table (in ₹) -->
+            <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Your Applied Gigs & Micro-Internships</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase">
+                                <th class="py-3 px-4">Gig Title & Client</th>
+                                <th class="py-3 px-4">Your Bid</th>
+                                <th class="py-3 px-4">Status</th>
+                                <th class="py-3 px-4">Timeline</th>
+                                <th class="py-3 px-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="py-4 px-4">
+                                    <span class="font-bold text-slate-900 block">Build Full-Stack Campus Food Delivery App</span>
+                                    <span class="text-slate-400">EduVibe Tech</span>
+                                </td>
+                                <td class="py-4 px-4 font-bold text-emerald-600">₹17,500</td>
+                                <td class="py-4 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">ACCEPTED / HIRED</span></td>
+                                <td class="py-4 px-4 text-slate-600">14 Days</td>
+                                <td class="py-4 px-4 text-right">
+                                    <button onclick="switchView('gig-detail')" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">Workspace</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-4">
+                                    <span class="font-bold text-slate-900 block">Spring Boot REST Microservice with Redis</span>
+                                    <span class="text-slate-400">InnovateX AI Labs</span>
+                                </td>
+                                <td class="py-4 px-4 font-bold text-emerald-600">₹11,000</td>
+                                <td class="py-4 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">PENDING</span></td>
+                                <td class="py-4 px-4 text-slate-600">10 Days</td>
+                                <td class="py-4 px-4 text-right">
+                                    <button onclick="switchView('gig-detail')" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">View Gig</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= VIEW 5: CLIENT DASHBOARD & HIRING ================= -->
+    <main id="view-client-dash" class="flex-grow hidden py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=100" class="w-14 h-14 rounded-2xl object-cover border">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">InnovateX AI Labs</h2>
+                        <span class="text-xs text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded font-semibold">Kunal Shah • Hiring Lead</span>
+                    </div>
+                </div>
+                <button onclick="alert('In the live Spring Boot app, clicking this opens the Post Gig form at /client/gigs/new!')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs">
+                    + Post New Micro-Gig (₹)
+                </button>
+            </div>
+
+            <!-- Gigs List with Applicant Review -->
+            <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-bold text-slate-900">Your Posted Gigs & Student Proposals</h3>
+                </div>
+
+                <div class="border rounded-2xl p-5 mb-4 bg-slate-50 border-slate-200">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">AI & LLMs</span>
+                            <h4 class="text-base font-bold text-slate-900 mt-1">Fine-Tune Llama-3 8B with LoRA on University Syllabus & Notes</h4>
+                        </div>
+                        <span class="text-xl font-bold text-emerald-600">₹14,000</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4">Applicants received: <strong class="text-indigo-600">2 students</strong></p>
+
+                    <!-- Student Proposal 1 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-start space-x-3">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-xl object-cover">
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-900">Ananya Verma (BITS Pilani • AI/ML 2026)</h5>
+                                <p class="text-[11px] text-slate-600 mt-0.5">"I have previously fine-tuned Mistral 7B on biomedical datasets using QLoRA. Can deliver GGUF model and FastAPI in 10 days."</p>
+                                <span class="text-[10px] text-indigo-600 font-semibold block mt-1">Proposed Bid: ₹14,000 • GitHub: ananya-ai/qlora-syllabus</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2" id="ananya-actions">
+                            <button onclick="hireStudent('Ananya Verma')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs">
+                                <i class="fa-solid fa-check mr-1"></i> Accept & Hire
+                            </button>
+                            <button onclick="this.parentElement.innerHTML = '<span class=\'text-rose-500 text-xs font-bold\'>Declined</span>'" class="px-3 py-2 border border-slate-300 text-slate-600 rounded-xl text-xs">
+                                Decline
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= VIEW 6: AUTH MODAL / REGISTER ================= -->
+    <main id="view-auth-modal" class="flex-grow hidden py-10">
+        <div class="max-w-md mx-auto px-4">
+            <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-xl">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 rounded-2xl gradient-brand text-white flex items-center justify-center text-xl mx-auto mb-2">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">Sign In to CampusGig</h3>
+                    <p class="text-xs text-slate-500 mt-1">Choose a demo profile to test role navigation:</p>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="switchView('student-dash')" class="w-full p-3 rounded-2xl border-2 border-indigo-200 bg-indigo-50/50 hover:bg-indigo-100/60 text-left transition-all">
+                        <span class="text-xs font-bold text-indigo-900 block">👤 Enter as Student: Aryan Sharma</span>
+                        <span class="text-[11px] text-indigo-600 block">aryan.student@campus.edu (IIT Delhi) • Explore & Apply</span>
+                    </button>
+                    <button onclick="switchView('client-dash')" class="w-full p-3 rounded-2xl border-2 border-blue-200 bg-blue-50/50 hover:bg-blue-100/60 text-left transition-all">
+                        <span class="text-xs font-bold text-blue-900 block">💼 Enter as Client: Kunal Shah</span>
+                        <span class="text-[11px] text-blue-600 block">kunal@innovatex.in (InnovateX AI Labs) • Post & Hire</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 text-xs text-center border-t border-slate-800">
+        <p>© 2026 CampusGig. Production-Ready Spring Boot, MySQL & Tailwind CSS Marketplace (India).</p>
+    </footer>
+
+    <!-- Interactive Simulator Scripts -->
+    <script>
+        function switchView(viewName) {
+            const views = ['landing', 'marketplace', 'gig-detail', 'student-dash', 'client-dash', 'auth-modal'];
+            views.forEach(v => {
+                const el = document.getElementById('view-' + v);
+                const btn = document.getElementById('btn-' + v);
+                if (el) el.classList.add('hidden');
+                if (btn) {
+                    btn.classList.remove('bg-indigo-600', 'font-semibold');
+                    btn.classList.add('bg-slate-800');
+                }
+            });
+
+            const activeEl = document.getElementById('view-' + viewName);
+            const activeBtn = document.getElementById('btn-' + viewName);
+            if (activeEl) activeEl.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-indigo-600', 'font-semibold');
+                activeBtn.classList.remove('bg-slate-800');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterDemoGigs() {
+            const input = document.getElementById('demo-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.gig-card');
+            cards.forEach(card => {
+                const skills = card.getAttribute('data-skills') || '';
+                const text = card.innerText.toLowerCase();
+                if (text.includes(input) || skills.includes(input)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function setCategoryFilter(cat) {
+            const pills = document.querySelectorAll('.category-pill');
+            pills.forEach(p => {
+                if (p.innerText.includes(cat) || (cat === 'ALL' && p.innerText.includes('All'))) {
+                    p.className = 'category-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white';
+                } else {
+                    p.className = 'category-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100 text-slate-800';
+                }
+            });
+
+            const cards = document.querySelectorAll('.gig-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (cat === 'ALL' || cardCat === cat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        const gigsDetailDatabase = {
+            'razorpay': {
+                category: 'Software Engineering',
+                title: 'Software Development Engineer (SDE) Intern - Backend (Java / Spring Boot / Go)',
+                stipend: '₹45,000',
+                stipendType: '/ month',
+                duration: '30 Days',
+                location: 'HYBRID (Bengaluru)',
+                company: 'Razorpay Software',
+                companyType: 'Fintech Unicorn',
+                companyDesc: 'India’s premier fintech payments unicorn powering online transactions for millions of businesses.',
+                companyImg: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100',
+                externalUrl: 'https://razorpay.com/jobs/',
+                scope: 'Build resilient payment microservices handling 5,000+ TPS with 99.99% uptime. Write clean Spring Boot & Go APIs, optimize MySQL/Redis, and join code reviews with Senior Staff Engineers. Top performing interns receive fast-track Pre-Placement Offers (PPOs).',
+                skills: ['Java', 'Spring Boot', 'MySQL', 'Redis', 'Microservices', 'REST APIs', 'Git']
+            },
+            'swiggy': {
+                category: 'Web Development',
+                title: 'Full-Stack & Frontend Engineering Intern (React.js, Next.js, Web Speed)',
+                stipend: '₹40,000',
+                stipendType: '/ month',
+                duration: '25 Days',
+                location: 'REMOTE / Bengaluru',
+                company: 'Swiggy Consumer Tech',
+                companyType: 'Consumer Tech Unicorn',
+                companyDesc: 'India’s leading convenience platform connecting millions with food, groceries, and daily essentials.',
+                companyImg: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100',
+                externalUrl: 'https://careers.swiggy.com/',
+                scope: 'Develop sub-second consumer web screens for Swiggy Food and Instamart. Optimize Core Web Vitals, implement reactive UI in React 18 / Next.js with modern Tailwind CSS, and integrate Node.js microservices.',
+                skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Node.js', 'REST APIs']
+            },
+            'postman': {
+                category: 'Software Engineering',
+                title: 'Developer Experience & API Platform Engineering Intern',
+                stipend: '₹45,000',
+                stipendType: '/ month',
+                duration: '28 Days',
+                location: 'HYBRID (Bengaluru)',
+                company: 'Postman',
+                companyType: 'Global SaaS Leader',
+                companyDesc: 'The globally recognized API development platform trusted by over 30 million software engineers worldwide.',
+                companyImg: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100',
+                externalUrl: 'https://www.postman.com/company/careers/',
+                scope: 'Contribute to Postman core API testing tooling, OpenAPI v3 generators, and Newman test runners. Write clean TypeScript tooling and collaborate with global developer communities.',
+                skills: ['Node.js', 'TypeScript', 'REST APIs', 'Postman', 'Git', 'Docker']
+            },
+            'zepto': {
+                category: 'Software Engineering',
+                title: 'Quick-Commerce Backend Systems & Dispatch Routing Intern',
+                stipend: '₹38,000',
+                stipendType: '/ month',
+                duration: '21 Days',
+                location: 'HYBRID (Mumbai/BLR)',
+                company: 'Zepto Tech',
+                companyType: 'Hyper-Growth Unicorn',
+                companyDesc: 'Revolutionizing 10-minute grocery commerce with real-time routing algorithms and high-throughput order microservices.',
+                companyImg: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100',
+                externalUrl: 'https://www.zeptonow.com/careers',
+                scope: 'Work on real-time dark-store inventory allocation and delivery rider geo-routing algorithms. High-concurrency Go and Java microservices processing thousands of orders per minute during peak IPL surges.',
+                skills: ['Golang', 'Java', 'MySQL', 'Kafka', 'Redis', 'Microservices']
+            },
+            'cred': {
+                category: 'UI/UX Design',
+                title: 'Product Design & UI/UX Design Systems Intern',
+                stipend: '₹35,000',
+                stipendType: '/ month',
+                duration: '18 Days',
+                location: 'ON_CAMPUS (Indiranagar BLR)',
+                company: 'CRED Design Studio',
+                companyType: 'Fintech & Design',
+                companyDesc: 'Celebrated worldwide for world-class design systems, typography, and fluid micro-interactions.',
+                companyImg: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100',
+                externalUrl: 'https://careers.cred.club/',
+                scope: 'Craft next-gen financial interfaces, gamified rewards, and high-fidelity Figma components fitting the bespoke CRED design system. Micro-interactions and motion design.',
+                skills: ['Figma', 'UI/UX Design', 'Prototyping', 'Auto-Layout', 'Motion Design']
+            },
+            'sarvam': {
+                category: 'AI & Data Science',
+                title: 'Generative AI & Indic LLM Research Intern (LangChain, LoRA & PyTorch)',
+                stipend: '₹30,000',
+                stipendType: '/ month',
+                duration: '26 Days',
+                location: 'REMOTE (GPU Credits)',
+                company: 'Sarvam AI / Unstop',
+                companyType: 'GenAI Research Lab',
+                companyDesc: 'Developing sovereign foundational models and Indic speech/generative AI systems for India.',
+                companyImg: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=100',
+                externalUrl: 'https://unstop.com/internships',
+                scope: 'Fine-tune sovereign Indic language models (Llama-3, Mistral) using LoRA, build multilingual RAG pipelines, and containerize FastAPI inference endpoints.',
+                skills: ['Python', 'PyTorch', 'LangChain', 'LoRA', 'HuggingFace', 'FastAPI']
+            },
+            'chaibyte': {
+                category: 'Web Development',
+                title: 'Contactless QR Menu & Live Kitchen Display Web App (React + UPI Mock)',
+                stipend: '₹16,000',
+                stipendType: 'fixed',
+                duration: '12 Days',
+                location: 'ON_CAMPUS',
+                company: 'Chai & Byte Artisan Cafe',
+                companyType: 'Local Campus Business',
+                companyDesc: 'Beloved campus food & coffee spot. We hire student designers, social media leads, and developers.',
+                companyImg: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100',
+                externalUrl: null,
+                scope: 'Table QR code ordering web app with live kitchen display system (KDS) and UPI checkout deep-linking for university students.',
+                skills: ['React', 'Tailwind CSS', 'Node.js', 'UPI', 'WebSockets']
+            },
+            'robotics': {
+                category: 'Web Development',
+                title: 'Design 3D Interactive Web Landing Page in Three.js for Annual Tech Fest',
+                stipend: '₹9,500',
+                stipendType: 'fixed',
+                duration: '10 Days',
+                location: 'HYBRID',
+                company: 'Campus Robotics Club',
+                companyType: 'College Club Lead',
+                companyDesc: 'Premier inter-college technical club organizing national robotics competitions and hackathons.',
+                companyImg: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100',
+                externalUrl: null,
+                scope: 'Create a responsive 3D interactive site for RoboCon 2026 with a rotating robotic arm model and sub-2.5s mobile loading.',
+                skills: ['Three.js', 'WebGL', 'Tailwind CSS', 'JavaScript']
+            },
+            'eduvibe': {
+                category: 'Mobile Apps',
+                title: 'Hostel Late-Night Food Delivery Mobile App (React Native + Spring Boot)',
+                stipend: '₹18,000',
+                stipendType: 'fixed',
+                duration: '15 Days',
+                location: 'REMOTE',
+                company: 'EduVibe Tech',
+                companyType: 'EdTech Startup',
+                companyDesc: 'Fast-growing campus edtech platform providing peer learning networks and automated assignment tools.',
+                companyImg: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100',
+                externalUrl: null,
+                scope: 'Prototyping a hostel night-canteen ordering app. Build 6 React Native screens and connect to Spring Boot order APIs.',
+                skills: ['React Native', 'Spring Boot', 'TypeScript', 'REST APIs']
+            }
+        };
+
+        function showGigDetail(key) {
+            const data = gigsDetailDatabase[key] || gigsDetailDatabase['razorpay'];
+            
+            // Populate Detail View
+            document.getElementById('detail-title').innerText = data.title;
+            document.getElementById('detail-stipend').innerText = data.stipend;
+            document.getElementById('detail-stipend-type').innerText = data.stipendType;
+            document.getElementById('detail-duration').innerText = data.duration;
+            document.getElementById('detail-location').innerText = data.location;
+            document.getElementById('detail-category').innerText = data.category;
+            document.getElementById('detail-scope').innerText = data.scope;
+            document.getElementById('detail-company-name').innerText = data.company;
+            document.getElementById('detail-company-type').innerText = data.companyType;
+            document.getElementById('detail-company-desc').innerText = data.companyDesc;
+            document.getElementById('detail-company-img').src = data.companyImg;
+
+            // External Apply Banner
+            const extBanner = document.getElementById('detail-external-banner');
+            const extLink = document.getElementById('detail-external-link');
+            const extCompany = document.getElementById('detail-external-company');
+            if (data.externalUrl) {
+                extBanner.classList.remove('hidden');
+                extLink.href = data.externalUrl;
+                extCompany.innerText = data.company;
+            } else {
+                extBanner.classList.add('hidden');
+            }
+
+            // Skills
+            const skillsContainer = document.getElementById('detail-skills');
+            skillsContainer.innerHTML = '';
+            data.skills.forEach(s => {
+                const badge = document.createElement('span');
+                badge.className = 'px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-semibold text-slate-700';
+                badge.innerText = s;
+                skillsContainer.appendChild(badge);
+            });
+
+            // Set default bid in form
+            const rawBid = parseInt(data.stipend.replace(/[^0-9]/g, '')) || 15000;
+            const bidInput = document.getElementById('detail-bid-input');
+            if (bidInput) bidInput.value = rawBid;
+            const formBtn = document.getElementById('detail-form-btn');
+            if (formBtn) formBtn.innerText = 'Submit Proposal to ' + data.company + ' (' + data.stipend + ')';
+
+            switchView('gig-detail');
+        }
+
+        function handleProposalSubmit(e) {
+            e.preventDefault();
+            const company = document.getElementById('detail-company-name').innerText;
+            const bid = document.getElementById('detail-bid-input').value;
+            alert('🎉 Proposal Submitted in Rupees (₹)!\nYour bid of ₹' + Number(bid).toLocaleString('en-IN') + ' has been sent to ' + company + '.\nYou can track this application in your Student Dashboard.');
+            switchView('student-dash');
+        }
+
+        function hireStudent(name) {
+            const ananyaActions = document.getElementById('ananya-actions');
+            if (ananyaActions) {
+                ananyaActions.innerHTML = '<span class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800"><i class="fa-solid fa-circle-check mr-1"></i> Hired!</span>';
+            }
+            alert('🚀 Congratulations! You have hired ' + name + ' for ₹14,000. An agreement notification has been dispatched to their university email.');
+        }
+    </script>
+</body>
+</html>

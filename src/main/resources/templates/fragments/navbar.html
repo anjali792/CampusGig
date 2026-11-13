@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="sticky top-0 z-50 glass-nav border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3">
+                <a th:href="@{/}" class="flex items-center space-x-2.5 group">
+                    <div class="w-10 h-10 rounded-xl gradient-brand flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-graduation-cap text-lg"></i>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900">
+                        Campus<span class="text-indigo-600">Gig</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-1 pl-6">
+                    <a th:href="@{/gigs}" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100/70 transition-colors">
+                        <i class="fa-solid fa-compass mr-1.5 text-indigo-500"></i> Explore Gigs
+                    </a>
+                    <a th:href="@{/#how-it-works}" class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100/70 transition-colors">
+                        How It Works
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Nav Actions -->
+            <div class="hidden md:flex items-center space-x-3">
+                <!-- If Not Authenticated -->
+                <div sec:authorize="isAnonymous()" class="flex items-center space-x-2">
+                    <a th:href="@{/login}" class="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100 transition-colors">
+                        Log In
+                    </a>
+                    <a th:href="@{/register}" class="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm hover:shadow transition-all">
+                        Sign Up Free
+                    </a>
+                </div>
+
+                <!-- If Authenticated as Student -->
+                <div sec:authorize="hasAuthority('ROLE_STUDENT')" class="flex items-center space-x-3">
+                    <a th:href="@{/student/dashboard}" class="px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-gauge-high mr-1.5 text-indigo-500"></i> Student Dashboard
+                    </a>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                        <i class="fa-solid fa-circle text-[8px] mr-1.5 text-emerald-500"></i> Student
+                    </span>
+                    <form th:action="@{/logout}" method="post" class="inline">
+                        <button type="submit" class="px-3 py-2 text-sm font-medium text-rose-600 hover:text-rose-700 rounded-lg hover:bg-rose-50 transition-colors">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Logout
+                        </button>
+                    </form>
+                </div>
+
+                <!-- If Authenticated as Client -->
+                <div sec:authorize="hasAuthority('ROLE_CLIENT')" class="flex items-center space-x-3">
+                    <a th:href="@{/client/dashboard}" class="px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-briefcase mr-1.5 text-indigo-500"></i> Client Dashboard
+                    </a>
+                    <a th:href="@{/client/gigs/new}" class="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm hover:shadow transition-all flex items-center space-x-1.5">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                        <span>Post a Gig</span>
+                    </a>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                        <i class="fa-solid fa-circle text-[8px] mr-1.5 text-blue-500"></i> Client
+                    </span>
+                    <form th:action="@{/logout}" method="post" class="inline">
+                        <button type="submit" class="px-3 py-2 text-sm font-medium text-rose-600 hover:text-rose-700 rounded-lg hover:bg-rose-50 transition-colors">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center md:hidden">
+                <button id="mobile-menu-button" type="button" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 border-t border-slate-200 bg-white space-y-2">
+        <a th:href="@{/gigs}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">
+            <i class="fa-solid fa-compass mr-2 text-indigo-500"></i> Explore Gigs
+        </a>
+        <div sec:authorize="isAnonymous()" class="pt-2 border-t border-slate-200 space-y-2">
+            <a th:href="@{/login}" class="block w-full text-center px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 rounded-lg">Log In</a>
+            <a th:href="@{/register}" class="block w-full text-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg">Sign Up</a>
+        </div>
+        <div sec:authorize="hasAuthority('ROLE_STUDENT')" class="pt-2 border-t border-slate-200 space-y-2">
+            <a th:href="@{/student/dashboard}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Student Dashboard</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="w-full text-left px-3 py-2 text-rose-600 font-medium">Logout</button>
+            </form>
+        </div>
+        <div sec:authorize="hasAuthority('ROLE_CLIENT')" class="pt-2 border-t border-slate-200 space-y-2">
+            <a th:href="@{/client/dashboard}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Client Dashboard</a>
+            <a th:href="@{/client/gigs/new}" class="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50">Post a Gig</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="w-full text-left px-3 py-2 text-rose-600 font-medium">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

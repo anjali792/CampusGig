@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>CampusGig - Hyper-Local Micro-Internship Marketplace</title>
+</head>
+<body>
+<section>
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden bg-gradient-to-b from-indigo-50/60 via-white to-slate-50 pt-16 pb-20 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-6">
+                <!-- Badge -->
+                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold tracking-wide">
+                    <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                    <span>🇮🇳 India's #1 College Micro-Internship & Real Project Marketplace</span>
+                </div>
+
+                <!-- Hero Headline -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+                    Hire Ambitious College Talent for <span class="gradient-text">Real-World Projects</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-lg sm:text-xl text-slate-600 leading-relaxed font-normal">
+                    Connect campus startups, local enterprises, and tech clubs with verified students from top universities for paid micro-gigs in 
+                    <span class="font-semibold text-slate-800">Spring Boot, GenAI & LLMs, Three.js, Cybersecurity, Flutter, and IoT</span>.
+                </p>
+
+                <!-- Search Bar -->
+                <div class="pt-4 max-w-2xl mx-auto">
+                    <form th:action="@{/gigs}" method="get" class="flex flex-col sm:flex-row gap-2 bg-white p-2 rounded-2xl shadow-xl shadow-indigo-500/5 border border-slate-200">
+                        <div class="relative flex-grow flex items-center pl-3">
+                            <i class="fa-solid fa-magnifying-glass text-slate-400 mr-2"></i>
+                            <input type="text" name="q" placeholder="Search by skill (e.g. Llama-3, Spring Boot, Three.js, Flutter, Pen-Testing)..." 
+                                   class="w-full py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none">
+                        </div>
+                        <button type="submit" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl transition-colors shadow-sm">
+                            Find Gigs
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Role CTAs -->
+                <div class="flex flex-wrap justify-center items-center gap-4 pt-2">
+                    <a th:href="@{/register(role='ROLE_STUDENT')}" class="inline-flex items-center px-5 py-3 rounded-xl bg-white border border-slate-300 text-slate-800 font-semibold text-sm hover:border-indigo-500 hover:text-indigo-600 shadow-sm transition-all">
+                        <i class="fa-solid fa-user-graduate text-indigo-500 mr-2"></i> Work as Student
+                    </a>
+                    <a th:href="@{/register(role='ROLE_CLIENT')}" class="inline-flex items-center px-5 py-3 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-slate-800 shadow-sm transition-all">
+                        <i class="fa-solid fa-briefcase text-indigo-400 mr-2"></i> Post a Gig (Hire Talent)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Bar (in Indian Rupees) -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
+                    <p class="text-3xl font-extrabold text-indigo-600">850+</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Verified Students</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
+                    <p class="text-3xl font-extrabold text-emerald-600">240+</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Funded Projects</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
+                    <p class="text-3xl font-extrabold text-purple-600">₹18.5L+</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Earned by Students</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
+                    <p class="text-3xl font-extrabold text-amber-500">4.96 ★</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Avg Client Rating</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Categories -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Explore by Domain</h2>
+                <p class="text-sm text-slate-500 mt-1">High-demand technical, AI, design, and hardware disciplines for college students.</p>
+            </div>
+            <a th:href="@{/gigs}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center">
+                All 8 Categories <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            <!-- Web Dev -->
+            <a th:href="@{/gigs(category='Web Development')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">Web Dev</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">Spring Boot, React</p>
+            </a>
+
+            <!-- AI & Data -->
+            <a th:href="@{/gigs(category='AI & Data Science')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">AI & LLMs</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">Llama-3, LoRA</p>
+            </a>
+
+            <!-- Mobile Apps -->
+            <a th:href="@{/gigs(category='Mobile Apps')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">Mobile Apps</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">React Native, Flutter</p>
+            </a>
+
+            <!-- UI/UX -->
+            <a th:href="@{/gigs(category='UI/UX Design')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">UI/UX Design</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">Figma, 3D Web</p>
+            </a>
+
+            <!-- Cybersecurity -->
+            <a th:href="@{/gigs(category='Cybersecurity')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">Cybersecurity</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">VAPT, OWASP</p>
+            </a>
+
+            <!-- IoT & Hardware -->
+            <a th:href="@{/gigs(category='IoT & Hardware')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">IoT & Hardware</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">ESP32, Arduino</p>
+            </a>
+
+            <!-- Content -->
+            <a th:href="@{/gigs(category='Content & Marketing')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-video"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">Social & Reels</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">Reels, Canva</p>
+            </a>
+
+            <!-- Campus Clubs -->
+            <a th:href="@{/gigs(category='College Club Support')}" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 card-hover-effect flex flex-col items-center text-center group">
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <h3 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600">Campus Clubs</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">Fest, Tech Ops</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Featured Gigs Grid in Indian Rupees -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Active Micro-Internships</h2>
+                <p class="text-sm text-slate-500 mt-1">Real tasks with verified budgets & mentors for college students.</p>
+            </div>
+            <a th:href="@{/gigs}" class="inline-flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                View All Gigs <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="gig : ${featuredGigs}" class="bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between card-hover-effect shadow-sm">
+                <div>
+                    <!-- Header with Category & Rupee Budget -->
+                    <!-- Header with Category, Verified Badge & Rupee Budget -->
+                    <div class="flex justify-between items-start mb-3 gap-2">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700">
+                                <span th:text="${gig.category}">Category</span>
+                            </span>
+                            <span th:if="${gig.isVerified}" class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-500 mr-1 text-[9px]"></i> Verified
+                            </span>
+                        </div>
+                        <div class="text-right whitespace-nowrap">
+                            <span class="text-xl font-black text-emerald-600">₹<span th:text="${#numbers.formatDecimal(gig.budget, 0, 'COMMA', 0, 'POINT')}">14,000</span></span>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase block" th:text="${gig.budgetType == 'MONTHLY' ? '/ month' : (gig.budgetType == 'HOURLY' ? '/ hour' : 'fixed')}">FIXED</span>
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-base font-bold text-slate-900 hover:text-indigo-600 transition-colors line-clamp-2">
+                        <a th:href="@{/gigs/{id}(id=${gig.id})}" th:text="${gig.title}">Gig Title</a>
+                    </h3>
+
+                    <!-- Company / Client Info -->
+                    <p class="text-xs text-slate-500 mt-1.5 flex items-center space-x-1.5 font-medium">
+                        <i class="fa-solid fa-building text-indigo-500 text-[11px]"></i>
+                        <span class="font-bold text-slate-800" th:text="${gig.companyName ?: (gig.client.clientProfile != null ? gig.client.clientProfile.companyName : gig.client.fullName)}">Client Name</span>
+                        <span class="text-slate-300">•</span>
+                        <span class="text-indigo-600 font-semibold" th:text="${gig.locationType}">REMOTE</span>
+                    </p>
+
+                    <!-- Description Preview -->
+                    <p class="text-xs text-slate-600 mt-2.5 line-clamp-3 leading-relaxed" th:text="${gig.description}">
+                        Gig description preview text...
+                    </p>
+
+                    <!-- Skills Tags -->
+                    <div class="flex flex-wrap gap-1.5 mt-4">
+                        <span th:each="skill : ${gig.getSkillsList()}" 
+                              class="text-[11px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-medium"
+                              th:text="${skill}">Java</span>
+                    </div>
+                </div>
+
+                <!-- Footer Info -->
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <div class="flex items-center space-x-1.5">
+                        <i class="fa-regular fa-clock text-slate-400"></i>
+                        <span>Due: <span class="font-medium text-slate-700" th:text="${#temporals.format(gig.deadline, 'MMM dd')}">Nov 30</span></span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center text-slate-500 text-xs">
+                            <i class="fa-solid fa-users text-slate-400 mr-1 text-[10px]"></i>
+                            <span th:text="${gig.applicantsCount}">0</span>
+                        </span>
+                        <a th:href="@{/gigs/{id}(id=${gig.id})}" class="px-3.5 py-1.5 bg-slate-900 hover:bg-indigo-600 text-white font-medium rounded-xl text-xs transition-colors">
+                            Apply Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div id="how-it-works" class="bg-white py-20 border-t border-slate-200 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">How CampusGig Works</h2>
+                <p class="text-slate-600 mt-2 text-base">A frictionless marketplace designed for flexible college schedules and student budgets.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- For Students -->
+                <div class="bg-indigo-50/50 p-8 rounded-3xl border border-indigo-100">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">For College Students</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-7 h-7 rounded-full bg-indigo-200 text-indigo-800 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Build Your Verified Campus Profile</h4>
+                                <p class="text-xs text-slate-600 mt-0.5">Showcase your GitHub repos, design portfolios, university degree, and technical skills.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-7 h-7 rounded-full bg-indigo-200 text-indigo-800 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Pitch in Rupees (₹) with Turnaround Days</h4>
+                                <p class="text-xs text-slate-600 mt-0.5">Submit tailored bids in ₹ that fit between semester exams and hackathons.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-7 h-7 rounded-full bg-indigo-200 text-indigo-800 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Get Hired & Build Tangible Experience</h4>
+                                <p class="text-xs text-slate-600 mt-0.5">Deliver production code, earn stipend in ₹, and gain verified recommendations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-4 border-t border-indigo-100">
+                        <a th:href="@{/register(role='ROLE_STUDENT')}" class="inline-flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-800">
+                            Create Free Student Account <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- For Clients & Clubs -->
+                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">For Clients & Campus Clubs</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Post a Micro-Gig in 2 Minutes</h4>
+                                <p class="text-xs text-slate-600 mt-0.5">Set a clear project scope, budget (e.g. ₹5,000 - ₹25,000), required tech stack, and target deadline.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Review Proposals & Inspect Portfolios</h4>
+                                <p class="text-xs text-slate-600 mt-0.5">Inspect real candidate GitHub repositories, live prototypes, and academic background.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">1-Click Hire & Work Together</h4>
+                                <p class="text-xs text-slate-600 mt-0.5">Hire ambitious, motivated talent locally while mentoring the next generation of engineers.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-4 border-t border-slate-200">
+                        <a th:href="@{/register(role='ROLE_CLIENT')}" class="inline-flex items-center text-sm font-semibold text-slate-900 hover:text-indigo-600">
+                            Post Your First Project <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

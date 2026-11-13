@@ -1,0 +1,31 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.jdt.ls.java.home": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
+            "default": true
+        }
+    ],
+    "spring-boot.ls.java.home": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
+    "maven.executable.path": "${workspaceFolder}\\mvnw.cmd",
+    "maven.terminal.useJavaHome": true,
+    "terminal.integrated.env.windows": {
+        "JAVA_HOME": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
+        "PATH": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17\\bin;C:\\Users\\ANJALI SINGH SENGAR\\.maven\\apache-maven-3.9.9\\bin;${env:PATH}"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+    },
+    "emmet.includeLanguages": {
+        "html": "html"
+    },
+    "liveServer.settings.defaultBrowser": "chrome"
+}

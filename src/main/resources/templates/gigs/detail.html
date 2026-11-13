@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${gig.title + ' - CampusGig'}">Gig Details - CampusGig</title>
+</head>
+<body>
+<section class="py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-xs text-slate-500 mb-6">
+            <a th:href="@{/}" class="hover:text-slate-800">Home</a>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            <a th:href="@{/gigs}" class="hover:text-slate-800">Gigs</a>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            <span class="text-slate-900 font-medium truncate max-w-xs" th:text="${gig.title}">Gig Title</span>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left 2 Cols: Main Gig Details & Application -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Gig Overview Card -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+                    <!-- Badges -->
+                    <div class="flex flex-wrap items-center gap-2 mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700" th:text="${gig.category}">
+                            Web Development
+                        </span>
+                        <span th:if="${gig.isVerified}" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                            <i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Verified Live Opening
+                        </span>
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">
+                            <i class="fa-solid fa-location-dot mr-1 text-[10px]"></i>
+                            <span th:text="${gig.locationType}">REMOTE</span>
+                        </span>
+                        <span th:if="${gig.status.name() == 'OPEN'}" class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">
+                            <i class="fa-solid fa-circle text-[8px] mr-1 text-emerald-500"></i> Open for Proposals
+                        </span>
+                        <span th:if="${gig.status.name() != 'OPEN'}" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+                            <span th:text="${gig.status}">CLOSED</span>
+                        </span>
+                    </div>
+
+                    <!-- Company Subheading -->
+                    <div class="flex items-center space-x-2 text-sm text-slate-600 mb-2 font-medium">
+                        <i class="fa-solid fa-building text-indigo-600"></i>
+                        <span class="font-extrabold text-slate-900" th:text="${gig.companyName ?: (gig.client.clientProfile != null ? gig.client.clientProfile.companyName : gig.client.fullName)}">Company Name</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight" th:text="${gig.title}">
+                        Gig Title
+                    </h1>
+
+                    <!-- Key Metadata Pill Bar in Indian Rupees -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Budget / Stipend</span>
+                            <span class="text-xl font-black text-emerald-600">
+                                ₹<span th:text="${#numbers.formatDecimal(gig.budget, 0, 'COMMA', 0, 'POINT')}">14,000</span>
+                                <span class="text-xs text-slate-500 font-semibold" th:text="${gig.budgetType == 'MONTHLY' ? '/ month' : (gig.budgetType == 'HOURLY' ? '/ hr' : 'fixed')}">/ month</span>
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Deadline</span>
+                            <span class="text-sm font-bold text-slate-800" th:text="${#temporals.format(gig.deadline, 'MMMM dd, yyyy')}">Nov 30, 2026</span>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Applicants</span>
+                            <span class="text-sm font-bold text-slate-800">
+                                <span th:text="${gig.applicantsCount}">0</span> proposals
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Campus Location if Hybrid/On-Campus -->
+                    <div th:if="${gig.campusLocation != null and !gig.campusLocation.isEmpty()}" class="mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center space-x-2">
+                        <i class="fa-solid fa-map-pin text-amber-600"></i>
+                        <span>Campus Work Location: <strong th:text="${gig.campusLocation}">Department Lab</strong></span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mt-8">
+                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Project Scope & Deliverables</h2>
+                        <div class="prose prose-sm max-w-none text-slate-700 leading-relaxed whitespace-pre-line" th:text="${gig.description}">
+                            Description text...
+                        </div>
+                    </div>
+
+                    <!-- Required Skills -->
+                    <div class="mt-8 pt-6 border-t border-slate-100">
+                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Required Skills & Tools</h2>
+                        <div class="flex flex-wrap gap-2">
+                            <span th:each="skill : ${gig.getSkillsList()}" 
+                                  class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-800 text-xs font-semibold"
+                                  th:text="${skill}">Java</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REAL COMPANY CAREER PORTAL DIRECT APPLY CARD -->
+                <div th:if="${gig.externalApplyUrl != null}" class="bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-indigo-500/10 border-2 border-emerald-500/40 rounded-3xl p-6 sm:p-7 shadow-sm">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+                        <div>
+                            <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold mb-2 shadow-sm">
+                                <i class="fa-solid fa-bolt-lightning text-amber-300"></i>
+                                <span>Official Live Industry Opening</span>
+                            </div>
+                            <h3 class="text-lg font-black text-slate-900">Apply Directly on Official Career Portal</h3>
+                            <p class="text-xs text-slate-600 mt-1 max-w-lg leading-relaxed">
+                                This verified opening is live at <strong class="text-slate-900" th:text="${gig.companyName ?: 'Company'}">Company</strong>. You can apply directly on their official job portal, or submit your CampusGig student portfolio proposal below.
+                            </p>
+                        </div>
+                        <a th:href="${gig.externalApplyUrl}" target="_blank" rel="noopener noreferrer"
+                           class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl text-xs sm:text-sm shadow-md shadow-emerald-600/30 transition-all flex items-center space-x-2 whitespace-nowrap">
+                            <span>Apply on Official Portal</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SUBMIT PROPOSAL / APPLICATION SECTION -->
+
+                <!-- Case 1: Student not yet applied & Gig is Open -->
+                <div th:if="${isStudent and !hasApplied and gig.status.name() == 'OPEN'}" class="bg-white rounded-3xl border border-indigo-200 p-8 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Submit Your Proposal</h2>
+                            <p class="text-xs text-slate-500">Quote your bid in Rupees (₹) and specify your turnaround timeline.</p>
+                        </div>
+                    </div>
+
+                    <form th:action="@{/gigs/{id}/apply(id=${gig.id})}" th:object="${applicationDto}" method="post" class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="proposedBudget" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Your Proposed Bid (₹)</label>
+                                <div class="relative">
+                                    <span class="absolute left-3.5 top-2.5 text-slate-400 text-sm font-bold">₹</span>
+                                    <input type="number" step="100" th:field="*{proposedBudget}" id="proposedBudget" required min="500"
+                                           class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">Client budget: ₹<span th:text="${#numbers.formatDecimal(gig.budget, 0, 'COMMA', 0, 'POINT')}">14,000</span></p>
+                            </div>
+
+                            <div>
+                                <label for="estimatedDays" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Estimated Turnaround (Days)</label>
+                                <div class="relative">
+                                    <i class="fa-regular fa-clock absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                    <input type="number" th:field="*{estimatedDays}" id="estimatedDays" required min="1" max="90"
+                                           class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                           placeholder="e.g. 7">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="portfolioLink" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Relevant GitHub Repo / Live Demo Link</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-link absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                <input type="url" th:field="*{portfolioLink}" id="portfolioLink"
+                                       class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                       placeholder="https://github.com/your-username/sample-project">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="coverLetter" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Cover Pitch / Proposal Note</label>
+                            <textarea th:field="*{coverLetter}" id="coverLetter" rows="4" required
+                                      class="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                      placeholder="Briefly explain your hands-on experience with the required tech stack, previous projects, and when you can deliver..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm shadow-md shadow-indigo-500/20 transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                            <span>Send Proposal to Client</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Case 2: Student already applied -->
+                <div th:if="${hasApplied}" class="bg-white rounded-3xl border border-emerald-200 p-8 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-4 text-emerald-700">
+                        <i class="fa-solid fa-circle-check text-2xl"></i>
+                        <h2 class="text-xl font-bold">Proposal Already Submitted</h2>
+                    </div>
+                    <div th:if="${existingApplication != null}" class="space-y-3 bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100 text-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-semibold text-slate-500 uppercase">Application Status:</span>
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold"
+                                  th:classappend="${existingApplication.status.name() == 'ACCEPTED'} ? 'bg-emerald-600 text-white' : (${existingApplication.status.name() == 'PENDING'} ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800')"
+                                  th:text="${existingApplication.status}">PENDING</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-semibold text-slate-500 uppercase">Your Bid:</span>
+                            <span class="font-bold text-slate-900">₹<span th:text="${#numbers.formatDecimal(existingApplication.proposedBudget, 0, 'COMMA', 0, 'POINT')}">14,000</span> (<span th:text="${existingApplication.estimatedDays}">7</span> days)</span>
+                        </div>
+                        <div>
+                            <span class="text-xs font-semibold text-slate-500 uppercase block mb-1">Your Pitch:</span>
+                            <p class="text-xs text-slate-700 bg-white p-3 rounded-xl border border-emerald-100" th:text="${existingApplication.coverLetter}">Pitch</p>
+                        </div>
+                        <div th:if="${existingApplication.clientFeedback != null}">
+                            <span class="text-xs font-semibold text-indigo-700 uppercase block mb-1">Client Feedback:</span>
+                            <p class="text-xs text-indigo-900 bg-indigo-50 p-3 rounded-xl border border-indigo-100" th:text="${existingApplication.clientFeedback}"></p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a th:href="@{/student/dashboard}" class="text-xs font-bold text-indigo-600 hover:text-indigo-800">
+                            ← Return to Student Dashboard
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Case 3: Gig Owner (Client) -->
+                <div th:if="${isOwner}" class="bg-indigo-50 rounded-3xl border border-indigo-200 p-8 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-2 text-indigo-900">
+                        <i class="fa-solid fa-briefcase text-2xl"></i>
+                        <h2 class="text-xl font-bold">You are the Creator of this Gig</h2>
+                    </div>
+                    <p class="text-xs text-indigo-700 mb-6">Review candidate proposals, inspect student GitHub portfolios, and choose who to hire.</p>
+                    <a th:href="@{/client/gigs/{id}/applicants(id=${gig.id})}" 
+                       class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm shadow transition-all">
+                        <i class="fa-solid fa-users mr-2"></i> View & Hire Applicants (<span th:text="${gig.applicantsCount}">0</span>)
+                    </a>
+                </div>
+
+                <!-- Case 4: Not logged in -->
+                <div sec:authorize="isAnonymous()" class="bg-slate-900 text-white rounded-3xl p-8 shadow-sm text-center">
+                    <h2 class="text-xl font-bold">Are you a student developer interested in this gig?</h2>
+                    <p class="text-xs text-slate-300 mt-2 max-w-md mx-auto">
+                        Sign in or register your free student profile to submit a proposal in ₹, pitch your skills, and get hired.
+                    </p>
+                    <div class="mt-6 flex justify-center gap-3">
+                        <a th:href="@{/login}" class="px-5 py-2.5 bg-white text-slate-900 font-bold rounded-xl text-xs hover:bg-slate-100 transition-colors">
+                            Log In to Apply
+                        </a>
+                        <a th:href="@{/register(role='ROLE_STUDENT')}" class="px-5 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">
+                            Sign Up as Student
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Client Info & Campus Safety -->
+            <div class="space-y-6">
+                <!-- Client Card -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">About the Hiring Partner</h3>
+                    
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img th:src="${gig.client.avatarUrl}" alt="Client avatar" class="w-12 h-12 rounded-2xl object-cover border border-slate-200">
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-900" 
+                                th:text="${gig.client.clientProfile != null ? gig.client.clientProfile.companyName : gig.client.fullName}">Client Name</h4>
+                            <span class="inline-flex items-center text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md mt-0.5"
+                                  th:text="${gig.client.clientProfile != null ? gig.client.clientProfile.organizationType : 'Client'}">Startup</span>
+                        </div>
+                    </div>
+
+                    <p th:if="${gig.client.clientProfile != null and gig.client.clientProfile.description != null}" 
+                       class="text-xs text-slate-600 leading-relaxed" 
+                       th:text="${gig.client.clientProfile.description}">Client description...</p>
+
+                    <div class="mt-4 pt-4 border-t border-slate-100 space-y-2 text-xs text-slate-600">
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-400">Total Gigs Posted:</span>
+                            <span class="font-semibold text-slate-800" th:text="${gig.client.clientProfile != null ? gig.client.clientProfile.totalGigsPosted : 1}">1</span>
+                        </div>
+                        <div th:if="${gig.client.clientProfile != null and gig.client.clientProfile.websiteUrl != null}" class="flex items-center justify-between">
+                            <span class="text-slate-400">Website:</span>
+                            <a th:href="${gig.client.clientProfile.websiteUrl}" target="_blank" class="font-semibold text-indigo-600 hover:underline truncate max-w-[150px]">
+                                <i class="fa-solid fa-arrow-up-right-from-square mr-1 text-[10px]"></i> Visit Link
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust Guarantee Card -->
+                <div class="bg-indigo-50/60 rounded-3xl border border-indigo-100 p-6">
+                    <div class="flex items-center space-x-2 text-indigo-800 font-bold text-xs uppercase tracking-wider mb-2">
+                        <i class="fa-solid fa-shield-halved text-indigo-600"></i>
+                        <span>CampusGig Guarantee</span>
+                    </div>
+                    <ul class="space-y-2 text-xs text-slate-600 leading-relaxed mt-3">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-check text-emerald-500 mr-2 mt-0.5"></i>
+                            <span>Guaranteed milestone stipends in INR (₹) upon deliverable sign-off.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-check text-emerald-500 mr-2 mt-0.5"></i>
+                            <span>Verified project certificates for LinkedIn and college credit.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-check text-emerald-500 mr-2 mt-0.5"></i>
+                            <span>Mentorship and direct feedback from experienced industry leads.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot - CampusGigApplication (F5 Run/Debug)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.campusgig.CampusGigApplication",
+            "projectName": "campusgig-app",
+            "args": "",
+            "vmArgs": "-Dspring.profiles.active=dev",
+            "env": {
+                "JAVA_HOME": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
+                "SPRING_PROFILES_ACTIVE": "dev"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Open CampusGig in Browser (http://localhost:8080)",
+            "runtimeExecutable": "cmd.exe",
+            "runtimeArgs": ["/c", "start", "http://localhost:8080"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Open Standalone Interactive Preview (HTML)",
+            "runtimeExecutable": "cmd.exe",
+            "runtimeArgs": ["/c", "start", "${workspaceFolder}\\CampusGig_Interactive_Preview.html"]
+        }
+    ]
+}

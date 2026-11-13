@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Post a New Micro-Gig - CampusGig</title>
+</head>
+<body>
+<section class="py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <!-- Header -->
+            <div class="flex items-center space-x-3 mb-6 pb-6 border-b border-slate-100">
+                <a th:href="@{/client/dashboard}" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">Post a Micro-Internship / Project Gig</h1>
+                    <p class="text-xs text-slate-500">Reach verified college students eager to deliver small-scale projects.</p>
+                </div>
+            </div>
+
+            <form th:action="@{/client/gigs/new}" th:object="${gigDto}" method="post" class="space-y-6">
+                <!-- Gig Title -->
+                <div>
+                    <label for="title" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Gig Title</label>
+                    <input type="text" th:field="*{title}" id="title" required
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                           placeholder="e.g. Build RESTful API in Spring Boot & MySQL for Student Badges">
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-rose-500 text-xs mt-1"></p>
+                </div>
+
+                <!-- Category & Location Type -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="category" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Category / Domain</label>
+                        <select th:field="*{category}" id="category" required
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
+                            <option value="">-- Select Category --</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="AI & Data Science">AI & Data Science (GenAI / ML)</option>
+                            <option value="Mobile Apps">Mobile Apps (React Native / Flutter)</option>
+                            <option value="UI/UX Design">UI/UX Design & 3D Web</option>
+                            <option value="Cybersecurity">Cybersecurity & Pen-Testing</option>
+                            <option value="IoT & Hardware">IoT & Hardware (ESP32 / Arduino)</option>
+                            <option value="Content & Marketing">Content, Reels & Video Editing</option>
+                            <option value="College Club Support">College Club & Event Tech</option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-rose-500 text-xs mt-1"></p>
+                    </div>
+
+                    <div>
+                        <label for="locationType" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Work Mode</label>
+                        <select th:field="*{locationType}" id="locationType" required
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white"
+                                onchange="toggleCampusLocation(this.value)">
+                            <option value="REMOTE">Remote (Anywhere)</option>
+                            <option value="ON_CAMPUS">On-Campus (In-Person)</option>
+                            <option value="HYBRID">Hybrid (Remote + Campus)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Campus Location (if On-Campus or Hybrid) -->
+                <div id="campusLocationWrapper" class="hidden">
+                    <label for="campusLocation" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Campus Spot / Physical Location</label>
+                    <input type="text" th:field="*{campusLocation}" id="campusLocation"
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                           placeholder="e.g. Robotics Lab 204 or Local University Ave Cafe">
+                </div>
+
+                <!-- Budget & Deadline -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label for="budget" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Stipend / Budget (₹)</label>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-2.5 text-slate-400 font-bold">₹</span>
+                            <input type="number" step="100" th:field="*{budget}" id="budget" required min="500"
+                                   class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                   placeholder="12000">
+                        </div>
+                        <p th:if="${#fields.hasErrors('budget')}" th:errors="*{budget}" class="text-rose-500 text-xs mt-1"></p>
+                    </div>
+
+                    <div>
+                        <label for="budgetType" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Budget Type</label>
+                        <select th:field="*{budgetType}" id="budgetType"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white">
+                            <option value="FIXED">Fixed Price Project</option>
+                            <option value="HOURLY">Hourly Rate</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="deadline" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Target Deadline</label>
+                        <input type="date" th:field="*{deadline}" id="deadline" required
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                        <p th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}" class="text-rose-500 text-xs mt-1"></p>
+                    </div>
+                </div>
+
+                <!-- Required Skills Tags -->
+                <div>
+                    <label for="requiredSkills" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Required Skills & Tools (Comma-separated)</label>
+                    <input type="text" th:field="*{requiredSkills}" id="requiredSkills" required
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                           placeholder="Java, Spring Boot, MySQL, REST APIs, Tailwind CSS">
+                    <p class="text-[11px] text-slate-400 mt-1">Students will match and search for gigs by these keywords.</p>
+                </div>
+
+                <!-- Scope & Description -->
+                <div>
+                    <label for="description" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Project Scope & Deliverables</label>
+                    <textarea th:field="*{description}" id="description" rows="6" required
+                              class="w-full p-4 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                              placeholder="Detail the problem statement, expected deliverables, milestones, tech requirements, and any starter code or Figma links..."></textarea>
+                    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-rose-500 text-xs mt-1"></p>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4 flex justify-end space-x-3">
+                    <a th:href="@{/client/dashboard}" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-500/20 transition-all">
+                        Publish Gig to Marketplace
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleCampusLocation(val) {
+        const wrapper = document.getElementById('campusLocationWrapper');
+        if (val === 'ON_CAMPUS' || val === 'HYBRID') {
+            wrapper.classList.remove('hidden');
+        } else {
+            wrapper.classList.add('hidden');
+        }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const loc = document.getElementById('locationType').value;
+        toggleCampusLocation(loc);
+    });
+</script>
+</body>
+</html>

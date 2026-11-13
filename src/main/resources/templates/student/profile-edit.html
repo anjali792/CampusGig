@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Edit Profile - CampusGig</title>
+</head>
+<body>
+<section class="py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <!-- Header -->
+            <div class="flex items-center space-x-3 mb-6 pb-6 border-b border-slate-100">
+                <a th:href="@{/student/dashboard}" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">Edit Student Profile</h1>
+                    <p class="text-xs text-slate-500">Update your verified portfolio, academic credentials, and skills tags.</p>
+                </div>
+            </div>
+
+            <form th:action="@{/student/profile/edit}" th:object="${profileDto}" method="post" class="space-y-5">
+                <!-- Full Name & Phone -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="fullName" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Name</label>
+                        <input type="text" th:field="*{fullName}" id="fullName" required
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Phone Number</label>
+                        <input type="text" th:field="*{phone}" id="phone"
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                </div>
+
+                <!-- Academic Info -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-2">
+                        <label for="college" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">College / University</label>
+                        <input type="text" th:field="*{college}" id="college"
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label for="graduationYear" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Grad Year</label>
+                        <input type="number" th:field="*{graduationYear}" id="graduationYear" min="2024" max="2032"
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="major" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Major / Degree Track</label>
+                    <input type="text" th:field="*{major}" id="major"
+                           class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                           placeholder="e.g. Computer Science, HCI, AI Engineering">
+                </div>
+
+                <!-- Bio -->
+                <div>
+                    <label for="bio" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Professional Bio</label>
+                    <textarea th:field="*{bio}" id="bio" rows="4" required
+                              class="w-full p-3.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                              placeholder="Tell clients about your technical background, course achievements, and what gigs you are seeking..."></textarea>
+                </div>
+
+                <!-- Skills Tags -->
+                <div>
+                    <label for="skillsTags" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Skills Tags (Comma-separated)</label>
+                    <input type="text" th:field="*{skillsTags}" id="skillsTags" required
+                           class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                           placeholder="Java, Python, Spring Boot, React, Tailwind CSS, Figma">
+                    <p class="text-[11px] text-slate-400 mt-1">Separate skills with commas. These appear on your profile card and help match client search queries.</p>
+                </div>
+
+                <!-- Portfolio Links -->
+                <div class="pt-4 border-t border-slate-100 space-y-4">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Portfolio & Web Presence</p>
+                    <div>
+                        <label for="githubUrl" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">GitHub Profile URL</label>
+                        <input type="url" th:field="*{githubUrl}" id="githubUrl"
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                               placeholder="https://github.com/your-username">
+                    </div>
+
+                    <div>
+                        <label for="linkedinUrl" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">LinkedIn Profile URL</label>
+                        <input type="url" th:field="*{linkedinUrl}" id="linkedinUrl"
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                               placeholder="https://linkedin.com/in/your-profile">
+                    </div>
+
+                    <div>
+                        <label for="portfolioUrl" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Personal Website / Design Portfolio</label>
+                        <input type="url" th:field="*{portfolioUrl}" id="portfolioUrl"
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                               placeholder="https://myportfolio.dev">
+                    </div>
+                </div>
+
+                <!-- Hourly Rate in INR -->
+                <div>
+                    <label for="hourlyRate" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Standard Hourly Rate (₹ / hr)</label>
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-2.5 text-slate-400 font-bold">₹</span>
+                        <input type="number" step="50" th:field="*{hourlyRate}" id="hourlyRate" min="0"
+                               class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                               placeholder="800">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-end space-x-3">
+                    <a th:href="@{/student/dashboard}" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow transition-all">
+                        Save Profile Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

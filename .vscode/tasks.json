@@ -1,0 +1,60 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "▶️ Run CampusGig (Spring Boot Server)",
+            "type": "shell",
+            "command": ".\\mvnw.cmd spring-boot:run",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "JAVA_HOME": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
+                    "Path": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17\\bin;C:\\Users\\ANJALI SINGH SENGAR\\.maven\\apache-maven-3.9.9\\bin;${env:Path}"
+                }
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "🌐 Open CampusGig in Browser (http://localhost:8080)",
+            "type": "shell",
+            "command": "cmd.exe /c start http://localhost:8080",
+            "problemMatcher": [],
+            "group": "none"
+        },
+        {
+            "label": "⚡ Open Standalone Interactive HTML Preview",
+            "type": "shell",
+            "command": "cmd.exe /c start CampusGig_Interactive_Preview.html",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "📦 Maven Package Clean JAR",
+            "type": "shell",
+            "command": ".\\mvnw.cmd clean package -DskipTests",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "JAVA_HOME": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
+                    "Path": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17\\bin;C:\\Users\\ANJALI SINGH SENGAR\\.maven\\apache-maven-3.9.9\\bin;${env:Path}"
+                }
+            },
+            "problemMatcher": []
+        }
+    ]
+}

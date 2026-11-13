@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Client Dashboard - CampusGig</title>
+</head>
+<body>
+<section class="py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <!-- Top Client Header -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <img th:src="${client.avatarUrl}" alt="Avatar" class="w-16 h-16 rounded-2xl object-cover border border-slate-200">
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-2xl font-extrabold text-slate-900" th:text="${profile.companyName}">TechSpark Innovations</h1>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700" th:text="${profile.organizationType}">Startup</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Managed by <span class="font-medium text-slate-700" th:text="${client.fullName}">Sarah Jenkins</span>
+                            <span th:if="${profile.location != null}">• <i class="fa-solid fa-location-dot text-slate-400 mr-1"></i><span th:text="${profile.location}">Location</span></span>
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <a th:href="@{/client/gigs/new}" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-500/20 transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                        <span>Post a New Micro-Gig</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Active Open Gigs</span>
+                <div class="flex items-baseline space-x-2 mt-2">
+                    <span class="text-3xl font-extrabold text-indigo-600" th:text="${activeGigsCount}">0</span>
+                    <span class="text-xs text-slate-500">of <span th:text="${#lists.size(postedGigs)}">0</span> total</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Student Proposals</span>
+                <span class="text-3xl font-extrabold text-blue-600 mt-2 block" th:text="${totalApplicantsCount}">0</span>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Hired Students</span>
+                <span class="text-3xl font-extrabold text-emerald-600 mt-2 block" th:text="${hiredCount}">0</span>
+            </div>
+        </div>
+
+        <!-- Posted Gigs Management Table -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Your Posted Micro-Internships</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Manage open project scopes, review incoming student proposals, and track status.</p>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${#lists.isEmpty(postedGigs)}" class="text-center py-12">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mx-auto mb-3">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900">No gigs posted yet</h3>
+                <p class="text-xs text-slate-500 mt-1">Post your first micro-project or internship task to start receiving college student proposals.</p>
+                <div class="mt-4">
+                    <a th:href="@{/client/gigs/new}" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700">
+                        Post a Gig Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- Gigs Table -->
+            <div th:if="${!#lists.isEmpty(postedGigs)}" class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                            <th class="py-3 px-4">Gig Title & Category</th>
+                            <th class="py-3 px-4">Budget</th>
+                            <th class="py-3 px-4">Deadline</th>
+                            <th class="py-3 px-4">Proposals</th>
+                            <th class="py-3 px-4">Status</th>
+                            <th class="py-3 px-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-xs">
+                        <tr th:each="gig : ${postedGigs}" class="hover:bg-slate-50/70 transition-colors">
+                            <!-- Title & Category -->
+                            <td class="py-4 px-4">
+                                <a th:href="@{/gigs/{id}(id=${gig.id})}" class="font-bold text-slate-900 hover:text-indigo-600 text-sm block" th:text="${gig.title}">
+                                    Gig Title
+                                </a>
+                                <span class="text-indigo-600 text-[11px] font-medium" th:text="${gig.category}">Web Development</span>
+                                <span class="text-slate-300">•</span>
+                                <span class="text-slate-500 text-[11px]" th:text="${gig.locationType}">REMOTE</span>
+                            </td>
+
+                            <!-- Budget in INR -->
+                            <td class="py-4 px-4 font-bold text-emerald-600">
+                                ₹<span th:text="${#numbers.formatDecimal(gig.budget, 0, 'COMMA', 0, 'POINT')}">14,000</span>
+                            </td>
+
+                            <!-- Deadline -->
+                            <td class="py-4 px-4 text-slate-600">
+                                <span th:text="${#temporals.format(gig.deadline, 'MMM dd, yyyy')}">Nov 30</span>
+                            </td>
+
+                            <!-- Proposals Counter with Link -->
+                            <td class="py-4 px-4">
+                                <a th:href="@{/client/gigs/{id}/applicants(id=${gig.id})}" 
+                                   class="inline-flex items-center px-3 py-1 rounded-xl text-xs font-bold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors">
+                                    <i class="fa-solid fa-users mr-1.5 text-[10px]"></i>
+                                    <span th:text="${gig.applicantsCount}">0</span> Proposals
+                                </a>
+                            </td>
+
+                            <!-- Status -->
+                            <td class="py-4 px-4">
+                                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold inline-block"
+                                      th:classappend="${gig.status.name() == 'OPEN'} ? 'bg-emerald-100 text-emerald-800' : (${gig.status.name() == 'IN_PROGRESS'} ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700')"
+                                      th:text="${gig.status}">OPEN</span>
+                            </td>
+
+                            <!-- Actions -->
+                            <td class="py-4 px-4 text-right space-x-1">
+                                <a th:href="@{/client/gigs/{id}/applicants(id=${gig.id})}" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-xs transition-colors inline-block">
+                                    Review
+                                </a>
+
+                                <!-- Status Toggle Form -->
+                                <form th:if="${gig.status.name() == 'OPEN'}" th:action="@{/client/gigs/{id}/status(id=${gig.id})}" method="post" class="inline">
+                                    <input type="hidden" name="status" value="CLOSED">
+                                    <button type="submit" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold rounded-lg text-xs transition-colors" title="Close Gig">
+                                        Close
+                                    </button>
+                                </form>
+                                <form th:if="${gig.status.name() != 'OPEN'}" th:action="@{/client/gigs/{id}/status(id=${gig.id})}" method="post" class="inline">
+                                    <input type="hidden" name="status" value="OPEN">
+                                    <button type="submit" class="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold rounded-lg text-xs transition-colors" title="Reopen Gig">
+                                        Reopen
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
