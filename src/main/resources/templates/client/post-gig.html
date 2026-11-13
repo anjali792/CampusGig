@@ -128,21 +128,21 @@
             </form>
         </div>
     </div>
-</section>
 
-<script>
-    function toggleCampusLocation(val) {
-        const wrapper = document.getElementById('campusLocationWrapper');
-        if (val === 'ON_CAMPUS' || val === 'HYBRID') {
-            wrapper.classList.remove('hidden');
-        } else {
-            wrapper.classList.add('hidden');
+    <script>
+        function toggleCampusLocation(val) {
+            const wrapper = document.getElementById('campusLocationWrapper');
+            if (val === 'ON_CAMPUS' || val === 'HYBRID') {
+                wrapper.classList.remove('hidden');
+            } else {
+                wrapper.classList.add('hidden');
+            }
         }
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-        const loc = document.getElementById('locationType').value;
-        toggleCampusLocation(loc);
-    });
-</script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loc = document.getElementById('locationType').value;
+            toggleCampusLocation(loc);
+        });
+    </script>
+</section>
 </body>
 </html>

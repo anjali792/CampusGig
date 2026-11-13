@@ -2,6 +2,7 @@ package com.campusgig.controller;
 
 import com.campusgig.dto.UserRegistrationDto;
 import com.campusgig.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +22,14 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(value = "error", required = false) String error,
+    public String login(HttpServletRequest request,
+                        @RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
                         @RequestParam(value = "registered", required = false) String registered,
                         Model model) {
+        // Ensure session exists early to prevent response-committed errors with CSRF/security tokens
+        request.getSession(true);
+
         if (error != null) {
             model.addAttribute("errorMessage", "Invalid email or password. Please try again.");
         }
@@ -38,8 +43,10 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String registerForm(@RequestParam(value = "role", defaultValue = "ROLE_STUDENT") String role,
+    public String registerForm(HttpServletRequest request,
+                               @RequestParam(value = "role", defaultValue = "ROLE_STUDENT") String role,
                                Model model) {
+        request.getSession(true);
         UserRegistrationDto dto = new UserRegistrationDto();
         dto.setRole(role);
         model.addAttribute("userDto", dto);
