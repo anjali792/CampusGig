@@ -1,191 +1,117 @@
-# 🎓 CampusGig — Hyper-Local Micro-Internship & Student Project Marketplace
+# 🎓 CampusGig — Hyper-Local Micro-Internship & Real Industry Project Marketplace
 
-A production-ready, full-stack web application designed to connect college students and campus developers with local businesses, startups, and college clubs for paid micro-internships and freelance tasks.
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" />
+  <img src="https://img.shields.io/badge/Spring_Boot-3.3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
+  <img src="https://img.shields.io/badge/Spring_Security-6.0-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" />
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+  <img src="https://img.shields.io/badge/Currency-INR_(₹)-10B981?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" />
+</p>
+
+A production-ready, full-stack web application designed to connect ambitious college developers and students with **real top-tier tech internships** (Razorpay, Swiggy, Postman, Zepto, CRED, Sarvam AI / Unstop) as well as **hyper-local campus freelance projects** (local businesses, startups, and college tech clubs) with stipends paid in Indian Rupees (₹).
 
 ---
 
-## 🌟 1. Project Overview & Architecture
+## ✨ Key Features & Capabilities
 
-- **Backend Architecture**: Java 17, Spring Boot 3.3.4 with clean MVC architecture (Controllers, Services, JPA Repositories, DTOs, Entities, and Security Filters).
-- **Relational Database**: MySQL 8.0+ with full referential integrity (`ON DELETE CASCADE`), indexes on user queries, unique constraint enforcement (preventing duplicate proposals), and timestamps.
-- **Frontend & UX**: Responsive, mobile-first UI built with HTML5, Thymeleaf, and Tailwind CSS (via CDN) with a modern Upwork/LinkedIn startup polish, custom typography, badge indicators, and interactive modals.
-- **Security & Authorization**: Spring Security 6 with role-based access control (`ROLE_STUDENT`, `ROLE_CLIENT`), BCrypt password hashing, session management, CSRF protection, and custom login routing.
+### 🏢 1. Real Industry Internships + Official Direct Application
+- Integrated with **authentic live openings** from India's leading tech product companies:
+  - **Razorpay**: SDE Intern - Backend (`Java 17`, `Spring Boot`, `Go`, `Redis`) — **₹45,000 / month**
+  - **Swiggy**: Full-Stack & Frontend Intern (`React.js`, `Next.js`, `Tailwind CSS`) — **₹40,000 / month**
+  - **Postman**: Developer Experience & API Platform Intern (`Node.js`, `APIs`, `Postman`) — **₹45,000 / month**
+  - **Zepto**: Quick-Commerce High-Throughput Routing Intern (`Go`, `Kafka`, `Microservices`) — **₹38,000 / month**
+  - **Groww**: Mobile App Engineering Intern (`Flutter`, `Android`, `Kotlin`) — **₹35,000 / month**
+  - **CRED**: Product Design & UI/UX Systems Intern (`Figma`, `Prototyping`, `Design Systems`) — **₹35,000 / month**
+  - **Sarvam AI / Unstop**: Generative AI & Indic LLM Research Intern (`PyTorch`, `LoRA`, `LangChain`) — **₹30,000 / month**
+- **Dual Apply Channels**:
+  - ↗️ **Apply on Official Company Portal**: Direct outbound link to corporate careers page.
+  - 📝 **1-Click CampusGig Proposal**: Pitch directly with custom bid in ₹, estimated days, and student portfolio links.
+
+### 🛡️ 2. Role-Based Access Control & Security
+- **Spring Security 6** with BCrypt password hashing.
+- Role-specific dashboards & workflows:
+  - `ROLE_STUDENT`: Showcase tech skills, GitHub/portfolio links, browse gigs, track proposal states (`PENDING`, `ACCEPTED`, `REJECTED`).
+  - `ROLE_CLIENT`: Post micro-gigs, view incoming proposals, inspect student portfolios, and 1-click hire.
+
+### ⚡ 3. Zero-Config Dual Database Architecture
+- **Dev Profile (`application-dev.properties`)**: In-memory H2 database running in MySQL-compatibility mode with automated seed data for instant testing.
+- **Production Profile (`application-mysql.properties`)**: Full relational MySQL 8.0 schema with foreign key cascades, unique constraints, and B-Tree indexes.
 
 ---
 
-## 📁 2. Complete Folder Structure
+## 📁 Project Architecture & Structure
 
 ```
 CampusGig/
 ├── pom.xml                                     # Maven build definition & dependencies
-├── README.md                                   # Complete setup & production deployment guide
-├── CampusGig_Interactive_Preview.html          # Instant browser preview of all views & workflows
+├── README.md                                   # Comprehensive documentation & setup
+├── CampusGig_Interactive_Preview.html          # Standalone client simulator (zero server needed)
 ├── database/
-│   ├── schema.sql                              # DDL: tables, indexes, constraints
-│   └── data.sql                                # Seed data: demo students, clients, gigs, & proposals
+│   ├── schema.sql                              # MySQL DDL (tables, indexes, foreign keys)
+│   └── data.sql                                # Production seed data with Indian Rupee stipends
+├── .vscode/                                    # 1-Click VS Code configurations
+│   ├── launch.json                             # F5 Run/Debug configuration
+│   ├── tasks.json                              # Ctrl+Shift+B Build & Run tasks
+│   └── settings.json                           # Java 17 & environment paths
 └── src/
     └── main/
-        ├── java/
-        │   └── com/
-        │       └── campusgig/
-        │           ├── CampusGigApplication.java
-        │           ├── config/
-        │           │   ├── SecurityConfig.java
-        │           │   ├── CustomUserDetailsService.java
-        │           │   └── CustomAuthenticationSuccessHandler.java
-        │           ├── model/
-        │           │   ├── Role.java               # Enum: ROLE_STUDENT, ROLE_CLIENT, ROLE_ADMIN
-        │           │   ├── GigStatus.java          # Enum: OPEN, IN_PROGRESS, CLOSED
-        │           │   ├── LocationType.java       # Enum: REMOTE, ON_CAMPUS, HYBRID
-        │           │   ├── ApplicationStatus.java  # Enum: PENDING, ACCEPTED, REJECTED, COMPLETED
-        │           │   ├── User.java
-        │           │   ├── StudentProfile.java
-        │           │   ├── ClientProfile.java
-        │           │   ├── Gig.java
-        │           │   └── Application.java
-        │           ├── repository/
-        │           │   ├── UserRepository.java
-        │           │   ├── StudentProfileRepository.java
-        │           │   ├── ClientProfileRepository.java
-        │           │   ├── GigRepository.java
-        │           │   └── ApplicationRepository.java
-        │           ├── service/
-        │           │   ├── UserService.java
-        │           │   ├── GigService.java
-        │           │   └── ApplicationService.java
-        │           ├── dto/
-        │           │   ├── UserRegistrationDto.java
-        │           │   ├── GigDto.java
-        │           │   ├── ApplicationDto.java
-        │           │   └── StudentProfileDto.java
-        │           ├── util/
-        │           │   └── SecurityUtils.java
-        │           └── controller/
-        │               ├── HomeController.java     # Landing page, stats, featured gigs
-        │               ├── AuthController.java     # Login & registration with role picker
-        │               ├── GigController.java      # Marketplace, search & proposal apply
-        │               ├── StudentController.java  # Student dashboard, profile edit
-        │               └── ClientController.java   # Client dashboard, post gig, applicant review
+        ├── java/com/campusgig/
+        │   ├── CampusGigApplication.java       # Main entry point
+        │   ├── config/                         # Security & UserDetails service
+        │   ├── model/                          # JPA Entities (User, Gig, Application, etc.)
+        │   ├── repository/                     # Spring Data JPA Repositories
+        │   ├── service/                        # Business Logic layer
+        │   ├── dto/                            # Data Transfer Objects
+        │   └── controller/                     # Spring MVC Web Controllers
         └── resources/
-            ├── application.properties
-            ├── static/
-            │   ├── css/
-            │   │   └── custom.css                  # Typography, glassmorphism & gradients
-            │   └── js/
-            │       └── main.js                     # Mobile navbar, auto alerts, demo filler
-            └── templates/
-                ├── fragments/
-                │   ├── layout.html                 # Master layout template
-                │   ├── navbar.html                 # Dynamic authenticated navbar & drawer
-                │   └── footer.html                 # Modern footer
-                ├── index.html                      # Landing page with search & CTAs
-                ├── auth/
-                │   ├── login.html                  # Login page with 1-click test pills
-                │   └── register.html               # Registration with dynamic role toggle
-                ├── gigs/
-                │   ├── list.html                   # Public marketplace & category search
-                │   └── detail.html                 # Gig details & proposal submission form
-                ├── student/
-                │   ├── dashboard.html              # Student profile, stats, applied gigs
-                │   └── profile-edit.html           # Edit bio, skills tags, portfolio links
-                └── client/
-                    ├── dashboard.html              # Metrics & posted gigs management
-                    ├── post-gig.html               # Post a micro-internship form
-                    └── applicants.html             # Applicant review & 1-click hire flow
+            ├── application-dev.properties      # Zero-config H2 dev profile
+            ├── application-mysql.properties    # MySQL production profile
+            ├── database/data-dev.sql           # H2 seed script (12 gigs, 15 users)
+            ├── static/css/custom.css           # Glassmorphism & custom utility styles
+            └── templates/                      # Thymeleaf HTML5 + Tailwind UI templates
 ```
 
 ---
 
-## 🗄️ 3. Database SQL Schema & Seed Data
+## 🚀 Quick Start (Running Locally)
 
-The project uses a structured MySQL relational schema:
+### Prerequisites
+- **JDK 17** (Temurin / OpenJDK)
+- **Maven 3.8+** (or use included `mvnw.cmd`)
+- **VS Code** (Optional, recommended)
 
-1. **`users`**: Email (unique), BCrypt password hash, full name, phone, role (`ROLE_STUDENT` / `ROLE_CLIENT`), avatar URL.
-2. **`student_profiles`**: Linked to `users` via 1-to-1 foreign key with `CASCADE`. Stores college, major, graduation year, bio, skills tags, GitHub/LinkedIn/portfolio URLs, hourly rate, and completed gigs count.
-3. **`client_profiles`**: Linked to `users`. Stores company/organization name, organization type (Startup, Local Business, College Club), website, location, and gigs posted count.
-4. **`gigs`**: Linked to client user. Contains title, category, description, budget, budget type (Fixed/Hourly), deadline date, required skills, work mode (Remote/On-Campus/Hybrid), and open status.
-5. **`applications`**: Unique constraint on `(gig_id, student_id)` to prevent duplicate bids. Contains student pitch/cover letter, proposed budget, estimated turnaround days, portfolio link, status (`PENDING`, `ACCEPTED`, `REJECTED`, `COMPLETED`), and client feedback.
-
-### Quick Database Import:
+### 1. Clone & Run with Maven Wrapper
 ```bash
-# In MySQL terminal or MySQL Workbench:
-mysql -u root -p < database/schema.sql
-mysql -u root -p < database/data.sql
+# Clone the repository
+git clone https://github.com/<your-username>/CampusGig.git
+cd CampusGig
+
+# Run locally in development mode (H2 zero-config DB)
+.\mvnw.cmd spring-boot:run
 ```
 
----
+App starts in seconds at: **`http://localhost:8080`**
 
-## 🔑 4. Pre-Configured Demo Test Accounts
-
-All accounts use the password: `password123`
-
-| Role | Name | Email | Focus / Bio |
+### 2. Demo Login Credentials (Pre-Seeded)
+| Role | Email | Password | Details |
 | :--- | :--- | :--- | :--- |
-| **Student** | Alex Rivera | `alex.student@campus.edu` | Full-Stack (Java, Spring Boot, React, MySQL) |
-| **Student** | Priya Sharma | `priya.student@campus.edu` | AI & Data (Python, Scikit-Learn, PyTorch, Scrapers) |
-| **Student** | Marcus Vance | `marcus.design@campus.edu` | UI/UX & Design (Figma, Design Systems, Tailwind CSS) |
-| **Client** | Sarah Jenkins | `sarah.client@techspark.io` | TechSpark Innovations (Early-stage SaaS startup) |
-| **Client** | Dr. David Miller | `david.miller@campus.edu` | AI & Robotics Society (College Club Lead) |
-| **Client** | Elena Rostova | `elena@apexcoffee.com` | Apex Artisan Coffee (Local Campus Business) |
-
-*(Note: On `/login`, you can simply click the **"Student Demo"** or **"Client Demo"** pills to automatically fill the credentials!)*
+| **Student** | `aryan.student@campus.edu` | `password123` | Final-year CS at IIT Delhi (Spring Boot, React) |
+| **Student (AI)** | `ananya.ai@campus.edu` | `password123` | AI Researcher at BITS Pilani (LangChain, PyTorch) |
+| **Client (Partner)**| `kunal@innovatex.in` | `password123` | Deep-Tech AI Accelerator Lead |
+| **Client (Corporate)**| `recruiter@razorpay.com`| `password123` | Razorpay University Talent Lead |
 
 ---
 
-## 🚀 5. How to Run the Project Live
+## 🛠️ Tech Stack Details
 
-### Step 1: Verify Prerequisites
-Make sure you have installed:
-1. **Java Development Kit (JDK) 17 or higher** (`java -version`)
-2. **Maven 3.8+** (`mvn -v`)
-3. **MySQL Server 8.0+** running locally on port 3306
-
-### Step 2: Configure Database Credentials
-Open `src/main/resources/application.properties` and verify your MySQL credentials:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/campusgig_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-spring.datasource.username=root
-spring.datasource.password=your_mysql_password
-```
-*(You can also set system environment variables `SPRING_DATASOURCE_USERNAME` and `SPRING_DATASOURCE_PASSWORD` without editing the file).*
-
-### Step 3: Run the Application
-Open PowerShell or your command terminal in the `CampusGig` project directory:
-
-```bash
-# Build and run with Maven:
-mvn clean spring-boot:run
-```
-
-Alternatively, open the folder in **IntelliJ IDEA**, **Eclipse**, or **VS Code**, right-click `CampusGigApplication.java`, and select **Run**.
-
-### Step 4: Open in Web Browser
-Navigate to:
-```
-http://localhost:8080
-```
+- **Backend**: Java 17, Spring Boot 3.3.4 (Spring MVC, Spring Data JPA, Hibernate 6, Spring Security 6)
+- **Frontend**: Thymeleaf, Tailwind CSS (CDN), FontAwesome 6
+- **Database**: H2 (In-Memory Dev) / MySQL 8.0 (Production)
+- **Build Tool**: Apache Maven 3.9
 
 ---
 
-## 🌐 6. Key Application Routes & Role Access
-
-| URL Path | Permitted Roles | Description |
-| :--- | :--- | :--- |
-| `/` | Public | Homepage with hero search, stats, category grid, & featured gigs |
-| `/gigs` | Public | Real-time marketplace search with category & keyword filters |
-| `/gigs/{id}` | Public | Detailed gig specification & scope |
-| `/gigs/{id}/apply` | `ROLE_STUDENT` | Proposal submission form (bid, turnaround time, pitch) |
-| `/login` | Public | Authentication with 1-click test credential helpers |
-| `/register` | Public | Dual registration with dynamic role picker & role fields |
-| `/student/dashboard` | `ROLE_STUDENT` | Student portfolio, metrics, and applied gigs status tracker |
-| `/student/profile/edit`| `ROLE_STUDENT` | Update bio, GitHub/portfolio links, skills tags, and rates |
-| `/client/dashboard` | `ROLE_CLIENT` | Client metrics & posted micro-internship management |
-| `/client/gigs/new` | `ROLE_CLIENT` | Post a new micro-gig form with budget, deadline & skills |
-| `/client/gigs/{id}/applicants` | `ROLE_CLIENT` | Review candidate proposals, inspect portfolios, & 1-click hire |
-
----
-
-## ⚡ 7. Zero-Config Instant Browser Preview
-If you want to visually test the application before starting your MySQL database:
-1. Double-click `CampusGig_Interactive_Preview.html` to open it in Chrome, Edge, or Firefox.
-2. Use the top switch bar to cycle between **Home**, **Marketplace**, **Gig Details**, **Student Dashboard**, **Client Dashboard**, and **Hiring Flow**.
+## 📄 License
+This project is open-source and available under the [MIT License](LICENSE).
