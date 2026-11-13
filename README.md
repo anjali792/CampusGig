@@ -54,7 +54,7 @@ CampusGig/
 ├── .vscode/                                    # 1-Click VS Code configurations
 │   ├── launch.json                             # F5 Run/Debug configuration
 │   ├── tasks.json                              # Ctrl+Shift+B Build & Run tasks
-│   └── settings.json                           # Java 17 & environment paths
+│   └── settings.json                           # Java 25 & environment paths
 └── src/
     └── main/
         ├── java/com/campusgig/
@@ -78,7 +78,7 @@ CampusGig/
 ## 🚀 Quick Start (Running Locally)
 
 ### Prerequisites
-- **JDK 17** (Temurin / OpenJDK)
+- **JDK 25** (Temurin / OpenJDK)
 - **Maven 3.8+** (or use included `mvnw.cmd`)
 - **VS Code** (Optional, recommended)
 
@@ -106,7 +106,7 @@ App starts in seconds at: **`http://localhost:8080`**
 
 ## 🛠️ Tech Stack Details
 
-- **Backend**: Java 17, Spring Boot 3.3.4 (Spring MVC, Spring Data JPA, Hibernate 6, Spring Security 6)
+- **Backend**: Java 25, Spring Boot 3.3.4 (Spring MVC, Spring Data JPA, Hibernate 6, Spring Security 6)
 - **Frontend**: Thymeleaf, Tailwind CSS (CDN), FontAwesome 6
 - **Database**: H2 (In-Memory Dev) / MySQL 8.0 (Production)
 - **Build Tool**: Apache Maven 3.9
