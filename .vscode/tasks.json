@@ -2,9 +2,18 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "🧹 Free Port 8080 (Clear Zombie Server)",
+            "type": "shell",
+            "command": "powershell -NoProfile -Command \"Get-NetTCPConnection -LocalPort 8080 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }\"",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent"
+            }
+        },
+        {
             "label": "▶️ Run CampusGig (Spring Boot Server)",
             "type": "shell",
-            "command": ".\\mvnw.cmd spring-boot:run",
+            "command": "powershell -NoProfile -Command \"Get-NetTCPConnection -LocalPort 8080 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }\"; .\\mvnw.cmd spring-boot:run",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {

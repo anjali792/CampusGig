@@ -10,6 +10,7 @@
             "projectName": "campusgig-app",
             "args": "",
             "vmArgs": "-Dspring.profiles.active=dev",
+            "preLaunchTask": "🧹 Free Port 8080 (Clear Zombie Server)",
             "env": {
                 "JAVA_HOME": "C:\\Users\\ANJALI SINGH SENGAR\\.jdk\\jdk-17",
                 "SPRING_PROFILES_ACTIVE": "dev"
